@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Этап 1: Архитектура</title>
+    <style>
+        body { background-color: #0d1117; color: #c9d1d9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        h1, h2 { color: #58a6ff; border-bottom: 1px solid #30363d; padding-bottom: 10px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        
+        /* Progress Bar */
+        .progress-box { background: #161b22; padding: 20px; border-radius: 6px; margin: 20px 0; border: 1px solid #30363d; }
+        .progress-bar-bg { background: #21262d; height: 20px; border-radius: 4px; overflow: hidden; margin-top: 10px; }
+        .progress-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #1f6feb, #238636); transition: width 0.5s; }
+        .progress-text { display: flex; justify-content: space-between; font-weight: bold; }
+
+        /* Task List */
+        .task-list { list-style: none; padding: 0; }
+        .task-item { background: #161b22; border: 1px solid #30363d; margin-bottom: 10px; padding: 15px; border-radius: 6px; }
+        .task-header { display: flex; justify-content: space-between; align-items: center; }
+        .check-btn { cursor: pointer; color: #58a6ff; font-weight: bold; }
+
+        /* AI Block */
+        .ai-block { background: #1a0000; border: 2px solid #f85149; color: #ff7b72; padding: 20px; margin-top: 40px; font-family: 'Courier New', monospace; border-radius: 6px; }
+        .ai-block h3 { color: #ff7b72; border-bottom: 1px dashed #f85149; padding-bottom: 5px; }
+        .ai-tag { background: #f85149; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; }
+        code { background: #000; padding: 2px 5px; border-radius: 3px; color: #7ee787; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="../index.html" style="color:#8b949e;">← Вернуться к общей карте</a>
+    
+    <h1>🛠️ Этап 1: Архитектура "Галактика-Свитч"</h1>
+    
+    <div class="progress-box">
+        <div class="progress-text">
+            <span>Статус реализации</span>
+            <span id="percent">0%</span>
+        </div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="bar"></div>
+        </div>
+        <p style="color:#8b949e; margin-top:10px;">
+            Цель: Написать сервер-маршрутизатор и настроить базовый сетевой клиент.
+            Сервер должен уметь соединять игроков, а клиент — принимать роль Хоста.
+        </p>
+    </div>
+
+    <ul class="task-list">
+        <li class="task-item">
+            <div class="task-header">
+                <span>1. Настройка Unity и Git</span>
+                <span class="check-btn" onclick="toggleTask(this)">[X]</span>
+            </div>
+            <p style="font-size:0.85em; color:#8b949e; margin-top:8px;">
+                Создана структура папок: Scripts/Core/, Scripts/Network/, Prefabs/. 
+                Настроен .gitignore для Unity и Backend. Сцены: 00_MainMenu, 01_GameWorld.
+            </p>
+        </li>
+        <li class="task-item">
+            <div class="task-header">
+                <span>2. Создание Backend-свитча (SignalR)</span>
+                <span class="check-btn" onclick="toggleTask(this)">[X]</span>
+            </div>
+            <p style="font-size:0.85em; color:#8b949e; margin-top:8px;">
+                Backend: Backend.csproj, GalaxyHub.cs, Program.cs. 
+                SignalR Hub: JoinSystem, LeaveSystem, BroadcastGameEvent. 
+                URL: http://localhost:5000/galaxyhub
+            </p>
+        </li>
+        <li class="task-item">
+            <div class="task-header">
+                <span>3. Интеграция Fish-Networking (Управление физикой)</span>
+                <span class="check-btn" onclick="toggleTask(this)">[X]</span>
+            </div>
+            <p style="font-size:0.85em; color:#8b949e; margin-top:8px;">
+                NetworkManager: GameManager.cs, BackendClient.cs, GameNetClient.cs.
+                MainMenuUI для подключения. PlayerController для управления.
+            </p>
+        </li>
+    </ul>
+
+    <!-- AI AGENT CONTEXT -->
+    <div class="ai-block">
+        <h3>> AI_AGENT_CONTEXT // STAGE_1_DEPLOY</h3>
+        <p><strong>OBJECTIVE:</strong> Initialize Project Architecture.</p>
+        
+        <p><strong>FILE_STRUCTURE_PLAN:</strong>
+        <br>/Assets/
+        <br>  /Scripts/
+        <br>    /Core/Managers/ (GameManager, NetworkManager)
+        <br>    /Network/ (BackendClient, GameNetClient)
+        <br>  /Prefabs/
+        <br>  /Scenes/ (00_MainMenu, 01_GameWorld)
+        <br>/ProjectSettings/
+        </p>
+
+        <p><strong>IMPLEMENTATION_STEPS:</strong>
+        <br>1. <strong>Backend:</strong> Create Console App (.NET 8). NuGet: <code>Microsoft.AspNetCore.SignalR</code>.
+        <br>2. <strong>Hub Logic:</strong> Implement <code>GalaxyHub : Hub</code>. Methods: <code>JoinSystem(PlayerID, SystemID)</code>.
+        <br>3. <strong>Unity:</strong> Import Fish-Networking via Git URL (<code>https://github.com/nlowe/fish-networking.git</code> or AssetStore).
+        <br>4. <strong>NetworkManager:</strong> Create script. Setup <code>NetworkManager.Singleton</code>. Configure SpawnList.
+        </p>
+
+        <p><strong>CONSTRAINTS:</strong></p>
+        <ul>
+            <li>- Do not simulate game logic on Backend. Backend is State Router only.</li>
+            <li>- Use ScriptableObjects for all game data.</li>
+        </ul>
+        <p><strong>GIT PROTOCOL FOR AGENTS:</strong></p>
+        <ol>
+            <li>Check <code>git status</code> before making changes</li>
+            <li>Show <code>git diff</code> to user after changes</li>
+            <li>Wait for explicit command: "Загрузить на Гитхаб"</li>
+            <li>Only then: <code>git add .</code> → <code>git commit -m "description"</code> → <code>git push</code></li>
+            <li>On "отмена" - <code>git restore .</code> and reset staging area</li>
+        </ol>
+        <p><strong>ROADMAP UPDATE PROTOCOL:</strong></p>
+        <ul>
+            <li>Update progress bar percentage when tasks complete</li>
+            <li>Mark tasks as [X] when finished</li>
+            <li>Update Global AI Context when moving to next stage</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    // Simple script to simulate progress updating
+    let completedTasks = 0;
+    const totalTasks = 3;
+
+    function toggleTask(btn) {
+        if (btn.innerText === '[ ]') {
+            btn.innerText = '[X]';
+            btn.style.color = '#238636';
+            completedTasks++;
+        } else {
+            btn.innerText = '[ ]';
+            btn.style.color = '#58a6ff';
+            completedTasks--;
+        }
+        
+        const percent = Math.round((completedTasks / totalTasks) * 100);
+        document.getElementById('percent').innerText = percent + '%';
+        document.getElementById('bar').style.width = percent + '%';
+    }
+</script>
+
+</body>
+</html>

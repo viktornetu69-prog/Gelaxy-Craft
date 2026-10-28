@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Этап 5: Взаимодействие</title>
+    <style>body{background:#0d1117;color:#c9d1d9;font-family:sans-serif;padding:20px}h1{color:#58a6ff}.ai{background:#1a0000;border:2px solid #f85149;color:#ff7b72;padding:15px;font-family:monospace}code{color:#7ee787;background:#000;padding:2px 4px;border-radius:3px}</style>
+</head>
+<body>
+<h1>⚔️ Этап 5: PvP и Кооперация</h1>
+<p>Рейды, Глобальный Босс, Гильдии.</p>
+<ul><li>Система "Сокетов" (Пристыковка)</li><li>Права доступа (Host vs Guest)</li><li>Сетевая Боевка</li></ul>
+<div class="ai">
+    <h3>> AI_AGENT_CONTEXT // STAGE_5_DEPLOY</h3>
+    <p><strong>LOGIC:</strong> <code>GateController.cs</code> (Host only). Guest uses <code>Interact()</code> to hack gates.<br>
+    <strong>BOSS:</strong> Global Event. Spawns in specific <code>SystemID</code>. All participants connect to that ID.</p>
+    <p><strong>GIT PROTOCOL FOR AGENTS:</strong></p>
+        <ol>
+            <li>Check <code>git status</code> before combat or network code changes</li>
+            <li>Show <code>git diff</code> to user after changes</li>
+            <li>Push only after user command "Загрузить на Гитхаб"</li>
+            <li>Revert if user says "нет" with <code>git restore .</code></li>
+        </ol>
+        <p><strong>ROADMAP UPDATE PROTOCOL:</strong></p>
+        <ul>
+            <li>Update progress when PvP/Raid tasks complete</li>
+            <li>Mark tasks [X] when finished</li>
+            <li>Final stage - project ready for testing and iteration</li>
+        </ul>
+    </div>
+<a href="../index.html">← На Главную</a>
+</body>
+</html>

@@ -1,0 +1,68 @@
+# ==========================
+# GC Root
+# ==========================
+
+# User home directory files
+user.dat*
+ntuser*
+package-lock.json
+README.md
+
+# ==========================
+# Unity Project (/My project/)
+# ==========================
+
+My project/Library/
+My project/Temp/
+My project/Obj/
+My project/Build/
+My project/Builds/
+My project/Logs/
+My project/UserSettings/
+My project/Packages/*/
+My project/Assets/Editor/!*/
+
+# Unity project (excluded entirely during Stage 1)
+My project/
+
+# Unity generated
+My project/*.csproj
+My project/*.csproj.meta
+My project/*.sln
+My project/*.sln.meta
+My project/*.suo
+My project/*.user
+
+# ==========================
+# Backend (/Backend/)
+# ==========================
+
+Backend/bin/
+Backend/obj/
+Backend/packages/
+Backend/*.nupkg
+Backend/project.lock.json
+Backend/project.json
+
+# NuGet
+*/packages/
+*/project.lock.json
+
+# ==========================
+# General
+# ==========================
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vs/
+.vscode/
+.idea/
+
+# Debug
+*.pidb
+*.pidb.connection
+*.pidb.connection.lock

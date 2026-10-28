@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Этап 2: Система/База</title>
+    <style>
+        body { background-color: #0d1117; color: #c9d1d9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; }
+        a { color: #58a6ff; text-decoration: none; }
+        h1, h2 { color: #58a6ff; border-bottom: 1px solid #30363d; padding-bottom: 10px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .progress-box { background: #161b22; padding: 20px; border-radius: 6px; margin: 20px 0; border: 1px solid #30363d; }
+        .progress-bar-bg { background: #21262d; height: 20px; border-radius: 4px; overflow: hidden; margin-top: 10px; }
+        .progress-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #1f6feb, #238636); }
+        .progress-text { display: flex; justify-content: space-between; font-weight: bold; }
+        .task-list { list-style: none; padding: 0; }
+        .task-item { background: #161b22; border: 1px solid #30363d; margin-bottom: 10px; padding: 15px; border-radius: 6px; }
+        .task-header { display: flex; justify-content: space-between; }
+        .check-btn { cursor: pointer; color: #58a6ff; font-weight: bold; }
+        .ai-block { background: #1a0000; border: 2px solid #f85149; color: #ff7b72; padding: 20px; margin-top: 40px; font-family: 'Courier New', monospace; }
+        .ai-block h3 { border-bottom: 1px dashed #f85149; }
+        code { background: #000; padding: 2px 5px; border-radius: 3px; color: #7ee787; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="../index.html">← Вернуться к общей карте</a>
+    <h1>🏗️ Этап 2: Система и Строительство</h1>
+    
+    <div class="progress-box">
+        <div class="progress-text"><span>Прогресс</span><span id="percent">0%</span></div>
+        <div class="progress-bar-bg"><div class="progress-bar-fill" id="bar"></div></div>
+        <p style="color:#8b949e;">Развитие своей базы. Энергетика, здания, флот.</p>
+    </div>
+
+    <ul class="task-list">
+        <li class="task-item"><div class="task-header"><span>1. Grid System (Строительство)</span><span class="check-btn" onclick="toggleTask(this)">[ ]</span></div></li>
+        <li class="task-item"><div class="task-header"><span>2. ScriptableObject (BuildingData)</span><span class="check-btn" onclick="toggleTask(this)">[ ]</span></div></li>
+        <li class="task-item"><div class="task-header"><span>3. Флот и Физика (NavMesh)</span><span class="check-btn" onclick="toggleTask(this)">[ ]</span></div></li>
+    </ul>
+
+    <div class="ai-block">
+        <h3>> AI_AGENT_CONTEXT // STAGE_2_DEPLOY</h3>
+        <p><strong>OBJECTIVE:</strong> Implement Colony Builder & RTS Mechanics.</p>
+        <p><strong>KEY_SCRIPTS:</strong>
+        <br>1. <code>BuildingSystem.cs</code> (Raycasting, Placement Logic).
+        <br>2. <code>EnergyGrid.cs</code> (Consumption/Production logic).
+        <br>3. <code>FleetManager.cs</code> (Selection, Orders).
+        </p>
+        <p><strong>DATA:</strong> Create <code>BuildingData : ScriptableObject</code>. Fields: <code>Cost (Gold/Wood)</code>, <code>EnergyConsumption</code>, <code>SpawnPrefab</code>.</p>
+        <p><strong>NETWORKING:</strong> Use <code>[ServerRpc]</code> to request build. <code>[ClientRpc]</code> to spawn instance locally.</p>
+        <p><strong>GIT PROTOCOL FOR AGENTS:</strong></p>
+        <ol>
+            <li>Check <code>git status</code> before modifying scripts or assets</li>
+            <li>Show <code>git diff</code> to user after changes</li>
+            <li>Wait for command: "Загрузить на Гитхаб"</li>
+            <li>Execute push only on explicit user approval</li>
+            <li>Revert on user refusal with <code>git restore .</code></li>
+        </ol>
+        <p><strong>ROADMAP UPDATE PROTOCOL:</strong></p>
+        <ul>
+            <li>Update progress bar when BuildingSystem tasks complete</li>
+            <li>Toggle task checkboxes [ ] → [X]</li>
+            <li>Update Global Context when Stage 2 finishes, start Stage 3</li>
+        </ul>
+    </div>
+</div>
+<script>
+let c=0; const t=3;
+function toggleTask(b){ if(b.innerText=='[ ]'){b.innerText='[X]';b.style.color='#238636';c++;}else{b.innerText='[ ]';b.style.color='#58a6ff';c--;} document.getElementById('percent').innerText=(c/t*100)+'%'; document.getElementById('bar').style.width=(c/t*100)+'%'; }
+</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Этап 4: Расписание</title>
+    <style>body{background:#0d1117;color:#c9d1d9;font-family:sans-serif;padding:20px}h1{color:#58a6ff}.ai{background:#1a0000;border:2px solid #f85149;color:#ff7b72;padding:15px;font-family:monospace}code{color:#7ee787;background:#000;padding:2px 4px;border-radius:3px}</style>
+</head>
+<body>
+<h1>⏱️ Этап 4: Система 24/7</h1>
+<p>Квесты, События, Смена времени.</p>
+<ul><li>Галактические Часы (<code>GlobalTimeManager.cs</code>)</li><li>Конфигуратор Ивентов (JSON/Data)</li><li>Автоматический спавн NPC</li></ul>
+<div class="ai">
+    <h3>> AI_AGENT_CONTEXT // STAGE_4_DEPLOY</h3>
+    <p><strong>LOGIC:</strong> Server sends <code>TimeTick</code> every 1s. Client calculates time to next event.<br>
+    <strong>CONFIG:</strong> <code>EventTable.cs</code>. Fields: <code>EventTime</code>, <code>EventType</code> (Trade/Attack), <code>Rewards</code>.</p>
+    <p><strong>EVENTS:</strong> <code>EventTrigger.cs</code> -> Spawns objects or modifies multipliers.</p>
+        <p><strong>GIT PROTOCOL FOR AGENTS:</strong></p>
+        <ol>
+            <li>Check <code>git status</code> before adding time or event scripts</li>
+            <li>Show <code>git diff</code> to user after modifications</li>
+            <li>Push only after user says "Загрузить на Гитхаб"</li>
+            <li>Revert if user says "нет" with <code>git restore .</code></li>
+        </ol>
+        <p><strong>ROADMAP UPDATE PROTOCOL:</strong></p>
+        <ul>
+            <li>Update schedule progress when Event tasks complete</li>
+            <li>Mark event tasks [X] when done</li>
+            <li>Finish Stage 4, move to Stage 5 PvP and events</li>
+        </ul>
+    </div>
+<a href="../index.html">← На Главную</a>
+</body>
+</html>
