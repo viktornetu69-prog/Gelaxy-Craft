@@ -1,20 +1,66 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<title>Space Rangers - Референсы</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Rangers - Референсы</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:#0a0e17;color:#c9d1d9;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;padding:20px}
+        .starfield{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;overflow:hidden}
+        .starfield::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(2px 2px at 20px 30px,#fff,transparent),radial-gradient(2px 2px at 40px 70px,rgba(255,255,255,0.8),transparent),radial-gradient(1px 1px at 90px 40px,#fff,transparent),radial-gradient(1px 1px at 130px 80px,rgba(255,255,255,0.6),transparent),radial-gradient(2px 2px at 160px 30px,#fff,transparent);background-size:200px 100px;animation:drift 60s linear infinite}
+        @keyframes drift{from{transform:translateY(0)}to{transform:translateY(-100px)}}
+        .nebula{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 20% 50%,rgba(63,185,80,0.06) 0%,transparent 50%)}
+        .container{position:relative;z-index:1;max-width:1200px;margin:0 auto}
+        h1{color:#58a6ff;font-size:2em;margin-bottom:10px;text-shadow:0 0 30px rgba(88,166,255,0.3)}
+        h2{color:#58a6ff;margin:25px 0 15px;padding-bottom:8px;border-bottom:1px solid #30363d}
+        a{color:#58a6ff;text-decoration:none}
+        .nav-btn{display:inline-block;margin-bottom:20px;padding:8px 16px;background:#21262d;color:#c9d1d9;border-radius:6px;font-size:0.9em;border:1px solid #30363d;transition:all 0.2s}
+        .nav-btn:hover{background:#30363d;border-color:#58a6ff}
+        .info-box{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:20px;margin-bottom:20px}
+        .info-box h3{color:#3fb950;margin-bottom:10px}
+        .info-box p{color:#8b949e;line-height:1.7}
+        .search-links{list-style:none;padding:0;margin:15px 0}
+        .search-links li{margin-bottom:8px}
+        .search-links a{color:#58a6ff;padding:8px 16px;background:#0d1117;border-radius:6px;display:inline-block;transition:all 0.2s}
+        .search-links a:hover{background:#30363d}
+        .what-to-look{background:rgba(63,185,80,0.1);border:1px solid rgba(63,185,80,0.3);border-radius:10px;padding:15px;margin-top:20px}
+        .what-to-look p{color:#3fb950}
+        .what-to-look strong{color:#3fb950}
+    </style>
 </head>
 <body>
-<h1>Space Rangers - Референсные изображения</h1>
-<div class="image-section">
-<div class="image-placeholder">Space Rangers: карты планет, торговля, фракции</div>
+    <div class="starfield"></div>
+    <div class="nebula"></div>
+<div class="container">
+    <a href="../index.html" class="nav-btn">← Вернуться к референсам</a>
+    <h1>🛸 Space Rangers</h1>
+
+    <div class="info-box">
+        <h3>О референсе</h3>
+        <p>Space Rangers — пиксельная космическая RPG с экономикой, торговлей и PvP/PvE. Вдохновляет нашу игровую экономику и исследование галактики.</p>
+        
+        <h2 style="margin-top:20px">🖼️ Изображения для игры</h2>
+        
+        <div id="galleryContainer"></div>
+        
+        <h2 style="margin-top:30px">🔍 Где искать картинки</h2>
+        <ul class="search-links">
+            <li><a href="https://www.google.com/search?tbm=isch&q=Space+Rangers+game+art" target="_blank">Google Images: Space Rangers art</a></li>
+            <li><a href="https://artstation.com/artworks?query=space+rangers" target="_blank">ArtStation: Space Rangers artwork</a></li>
+        </ul>
+        
+        <div class="what-to-look">
+            <p><strong>Что искать:</strong> galaxy map, pixel spaceship, trading hub, pixel combat, ancient ruins.</p>
+        </div>
+    </div>
 </div>
-<p>Картинки для скачивания:</p>
-<ul>
-<li><a href="https://www.google.com/search?tbm=isch&q=space+rangers+artwork+game+screenshots" target="_blank">Google Images: Space Rangers art</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Space_Rangers" target="_blank">Wikipedia: Space Rangers overview</a></li>
-<li><a href="https://space-rangers.fandom.com/wiki/Space_Rangers_Wiki" target="_blank">Fandom Wiki: Space Rangers</a></li>
-</ul>
-<p>Что искать: космические улучшения, карты галактики, интерфейс торговли, спрайты планет, фракционные символы.</p>
+
+<script src="image-gallery.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        initGallery('space-rangers', 'galleryContainer');
+    });
+</script>
 </body>
 </html>

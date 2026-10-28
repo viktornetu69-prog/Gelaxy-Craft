@@ -1,20 +1,66 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<title>Warcraft 3 - Референсы</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warcraft 3 - Референсы</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:#0a0e17;color:#c9d1d9;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;padding:20px}
+        .starfield{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;overflow:hidden}
+        .starfield::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(2px 2px at 20px 30px,#fff,transparent),radial-gradient(2px 2px at 40px 70px,rgba(255,255,255,0.8),transparent),radial-gradient(1px 1px at 90px 40px,#fff,transparent),radial-gradient(1px 1px at 130px 80px,rgba(255,255,255,0.6),transparent),radial-gradient(2px 2px at 160px 30px,#fff,transparent);background-size:200px 100px;animation:drift 60s linear infinite}
+        @keyframes drift{from{transform:translateY(0)}to{transform:translateY(-100px)}}
+        .nebula{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 40% 40%,rgba(248,81,73,0.06) 0%,transparent 50%)}
+        .container{position:relative;z-index:1;max-width:1200px;margin:0 auto}
+        h1{color:#58a6ff;font-size:2em;margin-bottom:10px;text-shadow:0 0 30px rgba(88,166,255,0.3)}
+        h2{color:#58a6ff;margin:25px 0 15px;padding-bottom:8px;border-bottom:1px solid #30363d}
+        a{color:#58a6ff;text-decoration:none}
+        .nav-btn{display:inline-block;margin-bottom:20px;padding:8px 16px;background:#21262d;color:#c9d1d9;border-radius:6px;font-size:0.9em;border:1px solid #30363d;transition:all 0.2s}
+        .nav-btn:hover{background:#30363d;border-color:#58a6ff}
+        .info-box{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:20px;margin-bottom:20px}
+        .info-box h3{color:#f85149;margin-bottom:10px}
+        .info-box p{color:#8b949e;line-height:1.7}
+        .search-links{list-style:none;padding:0;margin:15px 0}
+        .search-links li{margin-bottom:8px}
+        .search-links a{color:#58a6ff;padding:8px 16px;background:#0d1117;border-radius:6px;display:inline-block;transition:all 0.2s}
+        .search-links a:hover{background:#30363d}
+        .what-to-look{background:rgba(248,81,73,0.1);border:1px solid rgba(248,81,73,0.3);border-radius:10px;padding:15px;margin-top:20px}
+        .what-to-look p{color:#f85149}
+        .what-to-look strong{color:#ff7b72}
+    </style>
 </head>
 <body>
-<h1>Warcraft 3 - Референсные изображения</h1>
-<div class="image-section">
-<div class="image-placeholder">WC3: юниты, здания, герои</div>
+    <div class="starfield"></div>
+    <div class="nebula"></div>
+<div class="container">
+    <a href="../index.html" class="nav-btn">← Вернуться к референсам</a>
+    <h1>⚔️ WarCraft III</h1>
+
+    <div class="info-box">
+        <h3>О референсе</h3>
+        <p>WarCraft 3 — классическая RTS с фракциями, героями, строительством баз и апгрейдами. Вдохновляет наши механики строительства и управления войсками.</p>
+        
+        <h2 style="margin-top:20px">🖼️ Изображения для игры</h2>
+        
+        <div id="galleryContainer"></div>
+        
+        <h2 style="margin-top:30px">🔍 Где искать картинки</h2>
+        <ul class="search-links">
+            <li><a href="https://www.google.com/search?tbm=isch&q=Warcraft+3+base+buildings+art" target="_blank">Google Images: WarCraft 3 buildings</a></li>
+            <li><a href="https://artstation.com/artworks?query=warcraft+3" target="_blank">ArtStation: WarCraft artwork</a></li>
+        </ul>
+        
+        <div class="what-to-look">
+            <p><strong>Что искать:</strong> base buildings, hero units, battle scenes, faction logos, resource gathering.</p>
+        </div>
+    </div>
 </div>
-<p>Картинки для скачивания:</p>
-<ul>
-<li><a href="https://www.google.com/search?tbm=isch&q=Warcraft+3+concept+art+units+buildings" target="_blank">Google Images: WC3 concept art</a></li>
-<li><a href="https://www.wowhead.com/guides/warcraft-3-reforged-guide" target="_blank">WoWHead: WC3 units and buildings</a></li>
-<li><a href="https://artstation.com/artworks-search?search=warcraft+3+art" target="_blank">ArtStation: Warcraft 3 art</a></li>
-</ul>
-<p>Что искать: юниты (Grunt, Archer, Peasant, Knight), здания (Barracks, Gold Mine, Town Hall, Fortress), герои (Arthas, Thrall, Jaina), эффекты заклинаний, стиль Blizzard RTS.</p>
+
+<script src="image-gallery.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        initGallery('warcraft-3', 'galleryContainer');
+    });
+</script>
 </body>
 </html>

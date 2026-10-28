@@ -1,20 +1,66 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<title>Dune 2021 - Референсы</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dune 2021 - Референсы</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:#0a0e17;color:#c9d1d9;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;padding:20px}
+        .starfield{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;overflow:hidden}
+        .starfield::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(2px 2px at 20px 30px,#fff,transparent),radial-gradient(2px 2px at 40px 70px,rgba(255,255,255,0.8),transparent),radial-gradient(1px 1px at 90px 40px,#fff,transparent),radial-gradient(1px 1px at 130px 80px,rgba(255,255,255,0.6),transparent),radial-gradient(2px 2px at 160px 30px,#fff,transparent);background-size:200px 100px;animation:drift 60s linear infinite}
+        @keyframes drift{from{transform:translateY(0)}to{transform:translateY(-100px)}}
+        .nebula{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 30% 50%,rgba(240,136,62,0.06) 0%,transparent 50%)}
+        .container{position:relative;z-index:1;max-width:1200px;margin:0 auto}
+        h1{color:#58a6ff;font-size:2em;margin-bottom:10px;text-shadow:0 0 30px rgba(88,166,255,0.3)}
+        h2{color:#58a6ff;margin:25px 0 15px;padding-bottom:8px;border-bottom:1px solid #30363d}
+        a{color:#58a6ff;text-decoration:none}
+        .nav-btn{display:inline-block;margin-bottom:20px;padding:8px 16px;background:#21262d;color:#c9d1d9;border-radius:6px;font-size:0.9em;border:1px solid #30363d;transition:all 0.2s}
+        .nav-btn:hover{background:#30363d;border-color:#58a6ff}
+        .info-box{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:20px;margin-bottom:20px}
+        .info-box h3{color:#f0883e;margin-bottom:10px}
+        .info-box p{color:#8b949e;line-height:1.7}
+        .search-links{list-style:none;padding:0;margin:15px 0}
+        .search-links li{margin-bottom:8px}
+        .search-links a{color:#58a6ff;padding:8px 16px;background:#0d1117;border-radius:6px;display:inline-block;transition:all 0.2s}
+        .search-links a:hover{background:#30363d}
+        .what-to-look{background:rgba(240,136,62,0.1);border:1px solid rgba(240,136,62,0.3);border-radius:10px;padding:15px;margin-top:20px}
+        .what-to-look p{color:#f0883e}
+        .what-to-look strong{color:#e3b341}
+    </style>
 </head>
 <body>
-<h1>Dune (2021) - Референсные изображения</h1>
-<div class="image-section">
-<div class="image-placeholder">Dune 2021: пустыня, спайс, крепости</div>
+    <div class="starfield"></div>
+    <div class="nebula"></div>
+<div class="container">
+    <a href="../index.html" class="nav-btn">← Вернуться к референсам</a>
+    <h1>🏜️ Dune (2024)</h1>
+
+    <div class="info-box">
+        <h3>О референсе</h3>
+        <p>Dune — межпланетная феодальная империя с пустынными планетами, спайсом и борьбой за ресурсы. Вдохновляет нашу игру на строительство колоний и управление ресурсами.</p>
+        
+        <h2 style="margin-top:20px">🖼️ Изображения для игры</h2>
+        
+        <div id="galleryContainer"></div>
+        
+        <h2 style="margin-top:30px">🔍 Где искать картинки</h2>
+        <ul class="search-links">
+            <li><a href="https://www.google.com/search?tbm=isch&q=Dune+2024+concept+art" target="_blank">Google Images: Dune concept art</a></li>
+            <li><a href="https://artstation.com/artworks?query=dune+2024" target="_blank">ArtStation: Dune artwork</a></li>
+        </ul>
+        
+        <div class="what-to-look">
+            <p><strong>Что искать:</strong> пустынные ландшафты, spice fields, harvester machines, Fremen costume, Harkonnen/Atreides architecture.</p>
+        </div>
+    </div>
 </div>
-<p>Картинки для скачивания:</p>
-<ul>
-<li><a href="https://www.google.com/search?tbm=isch&q=Dune+2021+concept+art" target="_blank">Google Images: Dune 2021 concept art</a></li>
-<li><a href="https://artstation.com/artworks-search?search=Dune+2021" target="_blank">ArtStation: Dune 2021</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Dune_(2021_film)" target="_blank">Wikipedia: Dune (2021 film)</a></li>
-</ul>
-<p>Что искать: пустынные ландшафты, spice fields, harvester machines, Fremen costume, Harkonnen/Atreides architecture, desert planet vistas.</p>
+
+<script src="image-gallery.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        initGallery('dune-2021', 'galleryContainer');
+    });
+</script>
 </body>
 </html>
