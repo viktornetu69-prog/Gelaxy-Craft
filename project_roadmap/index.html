@@ -92,6 +92,12 @@
             font-weight: bold;
             font-size: 1.3em;
         }
+        .top-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
         .nav-btn {
             display: inline-block;
             margin-left: 8px;
@@ -107,6 +113,14 @@
         .nav-btn:hover {
             background: #30363d;
             border-color: #58a6ff;
+        }
+        .nav-btn.highlight {
+            border-color: #f0883e;
+            color: #f0883e;
+        }
+        .nav-btn.highlight:hover {
+            background: rgba(240,136,62,0.15);
+            border-color: #f0883e;
         }
 
         /* === KEY IDEA CARDS === */
@@ -348,6 +362,12 @@
         <h1>🚀 Галактика Свитч</h1>
         <div>
             <div class="progress-overview">Прогресс: <span>35%</span></div>
+            <div class="top-buttons">
+                <a href="references/index.html" class="nav-btn highlight">📚 Референсы</a>
+                <a href="lore/index.html" class="nav-btn highlight">📖 Лор</a>
+                <a href="stages/stage_1/index.html" class="nav-btn">← Этап 1</a>
+                <a href="stages/stage_2/index.html" class="nav-btn">Этап 2 →</a>
+            </div>
         </div>
     </div>
 

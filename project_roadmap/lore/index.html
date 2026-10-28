@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лор — Галактика Свитч</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:#0a0e17;color:#c9d1d9;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;padding:20px}
+        .starfield{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;overflow:hidden}
+        .starfield::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(2px 2px at 20px 30px,#fff,transparent),radial-gradient(2px 2px at 40px 70px,rgba(255,255,255,0.8),transparent),radial-gradient(1px 1px at 90px 40px,#fff,transparent),radial-gradient(1px 1px at 130px 80px,rgba(255,255,255,0.6),transparent),radial-gradient(2px 2px at 160px 30px,#fff,transparent);background-size:200px 100px;animation:drift 60s linear infinite}
+        @keyframes drift{from{transform:translateY(0)}to{transform:translateY(-100px)}}
+        .nebula{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 25% 40%,rgba(88,166,255,0.06) 0%,transparent 50%),radial-gradient(ellipse at 75% 60%,rgba(163,113,247,0.05) 0%,transparent 50%)}
+        .container{position:relative;z-index:1;max-width:1200px;margin:0 auto}
+        h1{color:#58a6ff;font-size:2.2em;margin-bottom:10px;text-shadow:0 0 30px rgba(88,166,255,0.3)}
+        h2{color:#58a6ff;margin:30px 0 15px;padding-bottom:8px;border-bottom:1px solid #30363d;font-size:1.5em}
+        h3{color:#f0f6fc;margin:20px 0 10px;font-size:1.2em}
+        a{color:#58a6ff;text-decoration:none}
+        .nav-btn{display:inline-block;margin-bottom:20px;padding:8px 16px;background:#21262d;color:#c9d1d9;border-radius:6px;font-size:0.9em;border:1px solid #30363d;transition:all 0.2s}
+        .nav-btn:hover{background:#30363d;border-color:#58a6ff}
+        .lore-hero{height:250px;border-radius:12px;margin:20px 0;position:relative;overflow:hidden;border:1px solid #30363d}
+        .lore-hero-bg{background:radial-gradient(ellipse at 30% 40%,#58a6ff 0%,transparent 40%),radial-gradient(ellipse at 70% 60%,#a371f7 0%,transparent 40%),radial-gradient(circle at 50% 50%,#3fb950 0%,transparent 20%),linear-gradient(135deg,#0d1117,#161b22);animation:pulse 8s ease-in-out infinite alternate}
+        @keyframes pulse{0%{opacity:0.8}100%{opacity:1}}
+        .lore-hero-text{position:absolute;bottom:20px;left:20px;right:20px}
+        .lore-hero-text h2{border:none;margin:0;font-size:2em;color:#f0f6fc;text-shadow:0 0 20px rgba(88,166,255,0.5)}
+        .lore-hero-text p{color:rgba(255,255,255,0.7);margin-top:8px;font-size:1.1em}
+        .lore-card{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:24px;margin-bottom:16px;transition:all 0.3s}
+        .lore-card:hover{border-color:#58a6ff;box-shadow:0 4px 20px rgba(0,0,0,0.3)}
+        .lore-section{display:grid;grid-template-columns:repeat(auto-fill,minmax(350px,1fr));gap:20px;margin:20px 0}
+        .lore-item{background:linear-gradient(135deg,#161b22,#0d1117);border:1px solid #30363d;border-radius:10px;padding:20px;transition:all 0.3s}
+        .lore-item:hover{transform:translateY(-2px);border-color:#58a6ff}
+        .lore-item .icon{font-size:2em;margin-bottom:10px;display:block}
+        .lore-item h4{color:#f0f6fc;margin-bottom:8px;font-size:1.1em}
+        .lore-item p{color:#8b949e;font-size:0.9em;line-height:1.6}
+        .lore-timeline{position:relative;padding-left:30px;margin:20px 0}
+        .lore-timeline::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,#58a6ff,#a371f7,#3fb950)}
+        .timeline-item{position:relative;margin-bottom:30px;padding:16px;background:#161b22;border-radius:8px;border:1px solid #30363d}
+        .timeline-item::before{content:'';position:absolute;left:-25px;top:20px;width:12px;height:12px;border-radius:50%;background:#58a6ff;border:2px solid #0d1117}
+        .timeline-item.era2::before{background:#a371f7}
+        .timeline-item.era3::before{background:#3fb950}
+        .timeline-item.current::before{background:#f0883e}
+        .timeline-era{font-size:0.85em;color:#58a6ff;font-weight:bold;margin-bottom:6px}
+        .timeline-title{color:#f0f6fc;font-size:1.1em;margin-bottom:8px}
+        .timeline-desc{color:#8b949e;font-size:0.9em;line-height:1.6}
+    </style>
+</head>
+<body>
+    <div class="starfield"></div>
+    <div class="nebula"></div>
+<div class="container">
+    <a href="../index.html" class="nav-btn">← Вернуться к дорожной карте</a>
+    <h1>📖 Лор и Мир</h1>
+    <p style="color:#8b949e;margin-bottom:20px;">История вселенной Gelaxy-Craft, фракции, события и конфликты.</p>
+
+    <!-- HERO -->
+    <div class="lore-hero">
+        <div class="lore-hero-bg"></div>
+        <div class="lore-hero-text">
+            <h2>🌌 Галактика Свитч</h2>
+            <p>2347 год. Человечество колонизировало 12 звёздных систем. Межгалактическая война уничточила 7 из них. Осталась одна — Свитч. Последняя надежда.</p>
+        </div>
+    </div>
+
+    <!-- TIMELINE -->
+    <h2>⏳ Хронология</h2>
+    <div class="lore-timeline">
+        <div class="timeline-item">
+            <div class="timeline-era">Эра I: Колонизация (2100–2200)</div>
+            <div class="timeline-title">Основание первых 7 систем</div>
+            <div class="timeline-desc">Человечество расширилось за пределы Солнечной системы. Созданы гипер-ворота между системами. Золотой век технологий.</div>
+        </div>
+        <div class="timeline-item era2">
+            <div class="timeline-era">Эра II: Война (2200–2280)</div>
+            <div class="timeline-title">Конфликт фракций</div>
+            <div class="timeline-desc">Спор за ресурсы между корпорациями перерос в войну. 7 систем уничтожены. Гипер-ворота разрушены. Человечество оказалось в изоляции.</div>
+        </div>
+        <div class="timeline-item era3">
+            <div class="timeline-era">Эра III: Восстановление (2280–2340)</div>
+            <div class="timeline-title">Строительство системы Свитч</div>
+            <div class="timeline-desc">Оставшиеся выжившие объединились. Построили новую сеть ворот. Система Свитч стала центром новой колонизации.</div>
+        </div>
+        <div class="timeline-item current">
+            <div class="timeline-era">Эра IV: Нынешнее время (2347)</div>
+            <div class="timeline-title">Расширение и новые угрозы</div>
+            <div class="timeline-desc">Система растёт. Новые игроки. Восстановление ворот. Но кто-то наблюдает из пустых систем...</div>
+        </div>
+    </div>
+
+    <!-- FACTIONS -->
+    <h2>🏛️ Фракции</h2>
+    <div class="lore-section">
+        <div class="lore-item">
+            <span class="icon">🔵</span>
+            <h4>Аттрейдосы (Blue Fleet)</h4>
+            <p>Торговая коалиция. Контролируют экономику, аукционы, торговые маршруты. Нейтральная позиция в конфликтах. Цель — восстановление гипер-ворот.</p>
+        </div>
+        <div class="lore-item">
+            <span class="icon">🔴</span>
+            <h4>Гарконны (Red Legion)</h4>
+            <p>Военная фракция. Контролируют добычу ресурсов, производство оружия. Расширяют территорию силой. Враги Аттрейдосов.</p>
+        </div>
+        <div class="lore-item">
+            <span class="icon">🟢</span>
+            <h4>Фримены (Green Nomads)</h4>
+            <p>Кочевники. Управляйте флотами, исследуйте пустые системы. Торговцы спайсом — уникальным ресурсом для улучшения баз.</p>
+        </div>
+        <div class="lore-item">
+            <span class="icon">⚫</span>
+            <h4>Пираты (Black Fleet)</h4>
+            <p>Нелегальная фракция. Атакуют торговые корабли, рейдят базы. Присоединяются к конфликту как враги или могут быть наняты.</p>
+        </div>
+    </div>
+
+    <!-- GAME MECHANICS BASED ON LORE -->
+    <h2>🎮 Механики на основе лора</h2>
+    <div class="lore-card">
+        <h3 style="color:#58a6ff;margin-bottom:12px;">🌍 12 Звёздных Систем</h3>
+        <p style="color:#8b949e;line-height:1.7;margin-bottom:12px;">Каждая система — уникальный мир с своими ресурсами:</p>
+        <ul style="color:#8b949e;line-height:2;padding-left:20px;">
+            <li><strong>Свитч-1</strong> — Центральная система. Станция-хаб, торговля.</li>
+            <li><strong>Свитч-2</strong> — Промышленная. Добыча руды, производство.</li>
+            <li><strong>Свитч-3</strong> — Сельская. Спайс, энергия, еда.</li>
+            <li><strong>Пустые системы (4–12)</strong> — Независимые. Можно захватить, но опасно.</li>
+        </ul>
+    </div>
+
+    <div class="lore-card">
+        <h3 style="color:#58a6ff;margin-bottom:12px;">⚡ Ресурсы и Спайс</h3>
+        <p style="color:#8b949e;line-height:1.7;">Спайс — редкий ресурс, найденный в пустых системах. Увеличивает уровень технологий базы на 1–5. Каждый игрок ищет спайс для победы в гонке технологий.</p>
+    </div>
+
+    <div class="lore-card">
+        <h3 style="color:#58a6ff;margin-bottom:12px;">🚪 Гипер-ворота</h3>
+        <p style="color:#8b949e;line-height:1.7;">Разрушены во время войны. Восстановление ворот — главная цель. Каждый игрок строит ворота на своей планете. Когда все ворота восстановлены — игра заканчивается.</p>
+    </div>
+
+    <!-- QUIRKS -->
+    <h2>🎭 Особенности мира</h2>
+    <div class="lore-section">
+        <div class="lore-item">
+            <span class="icon">🕐</span>
+            <h4>24/7 Время</h4>
+            <p>В мире 24 часа. Каждые "часы" — уникальное событие. Торговля, пиратство, боссы. Мир живёт и дышит, даже когда вы离线.</p>
+        </div>
+        <div class="lore-item">
+            <span class="icon">🌗</span>
+            <h4>7 Дней Недели</h4>
+            <p>Каждый день — модификатор. Понедельник — торговля удешевлена. Среда — пиратство усилено. Пятница — боссы сильнее.</p>
+        </div>
+        <div class="lore-item">
+            <span class="icon">🔄</span>
+            <h4>P2P Архитектура</h4>
+            <p>1 игрок = 1 система. Хост управляет физикой, клиенты симулируют. Сервер (SignalR) — только маршрутизация и экономика.</p>
+        </div>
+        <div class="lore-item">
+            <span class="icon">🏆</span>
+            <h4>Рейтинговая Система</h4>
+            <p>Каждая "смена" (8 часов) — новая мини-цель. Победитель получает спайс. Победитель за неделю получает уникальное здание.</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

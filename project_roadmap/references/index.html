@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Референсы — Галактика Свитч</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:#0a0e17;color:#c9d1d9;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;padding:20px}
+        .starfield{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;overflow:hidden}
+        .starfield::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(2px 2px at 20px 30px,#fff,transparent),radial-gradient(2px 2px at 40px 70px,rgba(255,255,255,0.8),transparent),radial-gradient(1px 1px at 90px 40px,#fff,transparent),radial-gradient(1px 1px at 130px 80px,rgba(255,255,255,0.6),transparent),radial-gradient(2px 2px at 160px 30px,#fff,transparent);background-size:200px 100px;animation:drift 60s linear infinite}
+        @keyframes drift{from{transform:translateY(0)}to{transform:translateY(-100px)}}
+        .nebula{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 30% 40%,rgba(240,136,62,0.06) 0%,transparent 50%),radial-gradient(ellipse at 70% 60%,rgba(88,166,255,0.05) 0%,transparent 50%)}
+        .container{position:relative;z-index:1;max-width:1200px;margin:0 auto}
+        h1{color:#58a6ff;font-size:2em;margin-bottom:10px;text-shadow:0 0 30px rgba(88,166,255,0.3)}
+        h2{color:#58a6ff;margin:25px 0 15px;padding-bottom:8px;border-bottom:1px solid #30363d}
+        a{color:#58a6ff;text-decoration:none}
+        .nav-btn{display:inline-block;margin-bottom:20px;padding:8px 16px;background:#21262d;color:#c9d1d9;border-radius:6px;font-size:0.9em;border:1px solid #30363d;transition:all 0.2s}
+        .nav-btn:hover{background:#30363d;border-color:#58a6ff}
+        .ref-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(350px,1fr));gap:20px;margin-top:20px}
+        .ref-card{background:#161b22;border:1px solid #30363d;border-radius:12px;overflow:hidden;transition:all 0.3s}
+        .ref-card:hover{transform:translateY(-4px);border-color:#58a6ff;box-shadow:0 8px 30px rgba(0,0,0,0.4)}
+        .ref-visual{height:180px;position:relative;overflow:hidden}
+        .ref-dune{background:radial-gradient(circle at 30% 50%,#f0883e 0%,transparent 40%),radial-gradient(circle at 70% 40%,#f0883e 0%,transparent 30%),linear-gradient(135deg,#1a1510,#0d1117)}
+        .ref-eve{background:radial-gradient(circle at 40% 40%,#58a6ff 0%,transparent 35%),radial-gradient(circle at 60% 60%,#a371f7 0%,transparent 35%),radial-gradient(circle at 50% 50%,#58a6ff 0%,transparent 20%),linear-gradient(135deg,#0d1117,#161b22)}
+        .ref-street{background:radial-gradient(circle at 30% 30%,#3fb950 0%,transparent 30%),radial-gradient(circle at 70% 70%,#58a6ff 0%,transparent 30%),linear-gradient(135deg,#0d1715,#0d1117)}
+        .ref-warcraft{background:radial-gradient(circle at 40% 40%,#f85149 0%,transparent 30%),radial-gradient(circle at 60% 60%,#f0883e 0%,transparent 30%),linear-gradient(135deg,#1a0d0d,#0d1117)}
+        .ref-space{background:radial-gradient(circle at 30% 50%,#58a6ff 0%,transparent 35%),radial-gradient(circle at 70% 50%,#a371f7 0%,transparent 35%),linear-gradient(135deg,#0d1117,#161b22)}
+        .ref-battlestar{background:radial-gradient(circle at 40% 40%,#8b949e 0%,transparent 30%),radial-gradient(circle at 60% 60%,#58a6ff 0%,transparent 30%),linear-gradient(135deg,#0d1117,#161b22)}
+        .ref-visual-label{position:absolute;bottom:10px;left:15px;font-size:0.85em;color:rgba(255,255,255,0.6);font-style:italic}
+        .ref-visual-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:3em;opacity:0.4}
+        .ref-content{padding:20px}
+        .ref-content h3{color:#f0f6fc;margin-bottom:10px;font-size:1.3em}
+        .ref-content p{color:#8b949e;font-size:0.9em;line-height:1.6;margin-bottom:12px}
+        .ref-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+        .ref-tag{background:rgba(88,166,255,0.15);color:#58a6ff;padding:4px 10px;border-radius:16px;font-size:0.8em}
+        .ref-links{border-top:1px solid #30363d;padding-top:12px}
+        .ref-links a{display:inline-block;margin-right:8px;margin-bottom:6px;padding:6px 12px;background:#0d1117;border-radius:4px;font-size:0.85em;transition:all 0.2s}
+        .ref-links a:hover{background:#30363d;color:#58a6ff}
+    </style>
+</head>
+<body>
+    <div class="starfield"></div>
+    <div class="nebula"></div>
+<div class="container">
+    <a href="../index.html" class="nav-btn">← Вернуться к дорожной карте</a>
+    <h1>📚 Референсы</h1>
+    <p style="color:#8b949e;margin-bottom:20px;">Игры, фильмы и концепты, вдохновляющие разработку Gelaxy-Craft.</p>
+
+    <div class="ref-grid">
+        <!-- Dune -->
+        <div class="ref-card">
+            <div class="ref-visual ref-dune">
+                <span class="ref-visual-icon">🏜️</span>
+                <div class="ref-visual-label">Космическая оперная эстетика</div>
+            </div>
+            <div class="ref-content">
+                <h3>Dune: Part Two (2024)</h3>
+                <p>Масштабная космическая опера с межпланетными феодами, пустынные планеты, строительство колоний, управление ресурсами.</p>
+                <div class="ref-tags">
+                    <span class="ref-tag">Космос</span>
+                    <span class="ref-tag">Колонии</span>
+                    <span class="ref-tag">Ресурсы</span>
+                    <span class="ref-tag">Феодализм</span>
+                </div>
+                <div class="ref-links">
+                    <a href="dune-2021/index.html">→ Подробнее</a>
+                    <a href="https://www.google.com/search?tbm=isch&q=Dune+2024+concept+art" target="_blank">🔍 Art</a>
+                    <a href="https://artstation.com/artworks?q=dune+2024" target="_blank">🎨 ArtStation</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- EVE Online -->
+        <div class="ref-card">
+            <div class="ref-visual ref-eve">
+                <span class="ref-visual-icon">🌌</span>
+                <div class="ref-visual-label">Космический симулятор</div>
+            </div>
+            <div class="ref-content">
+                <h3>EVE Online</h3>
+                <p>Масштабная MMO вселенная. Игроки строят станции, управляют флотами, торгуют между системами. Пиратство и PvP.</p>
+                <div class="ref-tags">
+                    <span class="ref-tag">MMO</span>
+                    <span class="ref-tag">Торговля</span>
+                    <span class="ref-tag">PvP</span>
+                    <span class="ref-tag">Флоты</span>
+                </div>
+                <div class="ref-links">
+                    <a href="eve/index.html">→ Подробнее</a>
+                    <a href="https://www.google.com/search?tbm=isch&q=EVE+Online+spaceship+concept" target="_blank">🔍 Art</a>
+                    <a href="https://forum.eveonline.com/" target="_blank">💬 Форум</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Star Trek -->
+        <div class="ref-card">
+            <div class="ref-visual ref-space">
+                <span class="ref-visual-icon">🚀</span>
+                <div class="ref-visual-label">Управление звездолётом</div>
+            </div>
+            <div class="ref-content">
+                <h3>Star Trek (2009+, Enterprise)</h3>
+                <p>Экипаж управляет космической станцией/кораблём. Роли: капитан, инженер, врач, навигатор. Управление системой по комнатам.</p>
+                <div class="ref-tags">
+                    <span class="ref-tag">Роли</span>
+                    <span class="ref-tag">Станция</span>
+                    <span class="ref-tag">Экипаж</span>
+                    <span class="ref-tag">Миссии</span>
+                </div>
+                <div class="ref-links">
+                    <a href="#">→ Подробнее</a>
+                    <a href="https://www.google.com/search?tbm=isch&q=Star+Trek+enterprise+bridge+concept" target="_blank">🔍 Art</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Warcraft 3 -->
+        <div class="ref-card">
+            <div class="ref-visual ref-warcraft">
+                <span class="ref-visual-icon">⚔️</span>
+                <div class="ref-visual-label">RTS-механики</div>
+            </div>
+            <div class="ref-content">
+                <h3>WarCraft III</h3>
+                <p>Классическая RTS: строительство базы, дерево ресурсов, юниты, герои, апгрейды. Фракции с уникальными способностями.</p>
+                <div class="ref-tags">
+                    <span class="ref-tag">RTS</span>
+                    <span class="ref-tag">Базы</span>
+                    <span class="ref-tag">Юниты</span>
+                    <span class="ref-tag">Фракции</span>
+                </div>
+                <div class="ref-links">
+                    <a href="warcraft-3/index.html">→ Подробнее</a>
+                    <a href="https://www.google.com/search?tbm=isch&q=Warcraft+3+base+buildings+art" target="_blank">🔍 Art</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Space Rangers -->
+        <div class="ref-card">
+            <div class="ref-visual ref-space-rangers">
+                <span class="ref-visual-icon">🛸</span>
+                <div class="ref-visual-label">Пиксельная космическая RPG</div>
+            </div>
+            <div class="ref-content">
+                <h3>Space Rangers</h3>
+                <p>Пиксельная космическая RPG с экономикой, торговлей, PvP/PvE. Игроки исследуют галактику, торгуют ресурсами, сражаются.</p>
+                <div class="ref-tags">
+                    <span class="ref-tag">Pиксельная</span>
+                    <span class="ref-tag">RPG</span>
+                    <span class="ref-tag">Торговля</span>
+                    <span class="ref-tag">Исследование</span>
+                </div>
+                <div class="ref-links">
+                    <a href="space-rangers/index.html">→ Подробнее</a>
+                    <a href="https://www.google.com/search?tbm=isch&q=Space+Rangers+game+art" target="_blank">🔍 Art</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Battlestar Galactica -->
+        <div class="ref-card">
+            <div class="ref-visual ref-battlestar">
+                <span class="ref-visual-icon">⭐</span>
+                <div class="ref-visual-label">Космическая драма</div>
+            </div>
+            <div class="ref-content">
+                <h3>Battlestar Galactica (2004)</h3>
+                <p>Выживание человечества. Управление флотом, дипломатия, мораль, политика. Космические бои и стратегические решения.</p>
+                <div class="ref-tags">
+                    <span class="ref-tag">Драма</span>
+                    <span class="ref-tag">Флот</span>
+                    <span class="ref-tag">Политика</span>
+                    <span class="ref-tag">Выживание</span>
+                </div>
+                <div class="ref-links">
+                    <a href="battlestar-galactica/index.html">→ Подробнее</a>
+                    <a href="https://www.google.com/search?tbm=isch&q=Battlestar+Galactica+spaceship+art" target="_blank">🔍 Art</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="background:rgba(22,27,34,0.6);border:1px solid #30363d;border-radius:10px;padding:20px;margin-top:40px;">
+        <h3 style="color:#58a6ff;margin-bottom:10px;">🎯 Что берём из референсов:</h3>
+        <ul style="color:#8b949e;line-height:2;">
+            <li><strong>Dune</strong> — межпланетные феуды, управление колониями, атмосфера</li>
+            <li><strong>EVE Online</strong> — торговля между системами, пиратство, PvP-флоты</li>
+            <li><strong>Star Trek</strong> — роли на станции, управление системами корабля</li>
+            <li><strong>WarCraft 3</strong> — RTS строительство, фазы развития, апгрейды</li>
+            <li><strong>Space Rangers</strong> — пиксельная эстетика, экономика, исследование</li>
+            <li><strong>Battlestar Galactica</strong> — мораль, политика, выживание флота</li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>
