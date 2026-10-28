@@ -2,35 +2,49 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Этап 2: Система/База</title>
+    <title>Этап 2: Колония</title>
     <style>
-        body { background-color: #0d1117; color: #c9d1d9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; }
-        a { color: #58a6ff; text-decoration: none; }
-        h1, h2 { color: #58a6ff; border-bottom: 1px solid #30363d; padding-bottom: 10px; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .progress-box { background: #161b22; padding: 20px; border-radius: 6px; margin: 20px 0; border: 1px solid #30363d; }
-        .progress-bar-bg { background: #21262d; height: 20px; border-radius: 4px; overflow: hidden; margin-top: 10px; }
-        .progress-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #1f6feb, #238636); }
-        .progress-text { display: flex; justify-content: space-between; font-weight: bold; }
-        .task-list { list-style: none; padding: 0; }
-        .task-item { background: #161b22; border: 1px solid #30363d; margin-bottom: 10px; padding: 15px; border-radius: 6px; }
-        .task-header { display: flex; justify-content: space-between; }
-        .check-btn { cursor: pointer; color: #58a6ff; font-weight: bold; }
-        .ai-block { background: #1a0000; border: 2px solid #f85149; color: #ff7b72; padding: 20px; margin-top: 40px; font-family: 'Courier New', monospace; }
-        .ai-block h3 { border-bottom: 1px dashed #f85149; }
-        code { background: #000; padding: 2px 5px; border-radius: 3px; color: #7ee787; }
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:#0a0e17;color:#c9d1d9;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;padding:20px}
+        .starfield{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;overflow:hidden}
+        .starfield::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(2px 2px at 20px 30px,#fff,transparent),radial-gradient(2px 2px at 40px 70px,rgba(255,255,255,0.8),transparent),radial-gradient(1px 1px at 90px 40px,#fff,transparent),radial-gradient(1px 1px at 130px 80px,rgba(255,255,255,0.6),transparent),radial-gradient(2px 2px at 160px 30px,#fff,transparent);background-size:200px 100px;animation:drift 60s linear infinite}
+        @keyframes drift{from{transform:translateY(0)}to{transform:translateY(-100px)}}
+        .nebula{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 25% 60%,rgba(240,136,62,0.06) 0%,transparent 50%),radial-gradient(ellipse at 75% 40%,rgba(88,166,255,0.05) 0%,transparent 50%)}
+        .container{position:relative;z-index:1;max-width:1200px;margin:0 auto}
+        h1{color:#58a6ff;font-size:2em;margin-bottom:10px;text-shadow:0 0 30px rgba(88,166,255,0.3)}
+        h2{color:#58a6ff;border-bottom:1px solid #30363d;padding-bottom:10px;margin:20px 0}
+        a{color:#58a6ff;text-decoration:none}
+        .progress-box{background:#161b22;padding:20px;border-radius:10px;margin:20px 0;border:1px solid #30363d}
+        .progress-bar-bg{background:#0d1117;height:20px;border-radius:10px;overflow:hidden;margin-top:10px}
+        .progress-bar-fill{height:100%;width:60%;background:linear-gradient(90deg,#d29922,#e3b341);border-radius:10px}
+        .progress-text{display:flex;justify-content:space-between;font-weight:bold}
+        .task-list{list-style:none;padding:0}
+        .task-item{background:#161b22;border:1px solid #30363d;margin-bottom:12px;padding:15px;border-radius:8px;border-left:4px solid #d29922}
+        .task-header{display:flex;justify-content:space-between;align-items:center}
+        .check-btn{cursor:pointer;color:#58a6ff;font-weight:bold}
+        .ai-block{background:rgba(0,0,0,0.5);border:2px solid #f85149;color:#ff7b72;padding:20px;margin-top:40px;font-family:'Courier New',monospace;border-radius:10px}
+        .ai-block h3{border-bottom:1px dashed #f85149;padding-bottom:10px}
+        code{background:#0d1117;padding:2px 8px;border-radius:4px;color:#7ee787}
+        .nav-btn{display:inline-block;margin-top:10px;padding:8px 16px;background:#21262d;color:#c9d1d9;text-decoration:none;border-radius:6px;font-size:0.9em;border:1px solid #30363d}
+        .nav-btn:hover{background:#30363d;border-color:#58a6ff}
+        .visual-box{height:150px;border-radius:10px;margin:15px 0;position:relative;overflow:hidden;border:1px solid #30363d}
+        .visual-colony{background:radial-gradient(circle at 25% 60%,#f0883e 0%,transparent 30%),radial-gradient(circle at 75% 40%,#58a6ff 0%,transparent 25%),radial-gradient(circle at 50% 50%,#3fb950 0%,transparent 20%),linear-gradient(135deg,#1a1510,#0d1117)}
+        .visual-colony::after{content:'🏗️';position:absolute;bottom:10px;right:15px;font-size:2em;opacity:0.5}
     </style>
 </head>
 <body>
+    <div class="starfield"></div>
+    <div class="nebula"></div>
 <div class="container">
-    <a href="../index.html">← Вернуться к общей карте</a>
-    <h1>🏗️ Этап 2: Система и Строительство</h1>
-    
+    <a href="../index.html" style="color:#8b949e;font-size:0.9em;">← Вернуться к общей карте</a>
+    <h1>🏗️ Этап 2: Колония (RTS/Builder)</h1>
+
+    <div class="visual-box visual-colony"></div>
+
     <div class="progress-box">
-        <div class="progress-text"><span>Прогресс</span><span id="percent">0%</span></div>
-        <div class="progress-bar-bg"><div class="progress-bar-fill" id="bar"></div></div>
-        <p style="color:#8b949e;">Развитие своей базы. Энергетика, здания, флот.</p>
+        <div class="progress-text"><span>Прогресс реализации</span><span>60%</span></div>
+        <div class="progress-bar-bg"><div class="progress-bar-fill"></div></div>
+        <p style="color:#8b949e;margin-top:10px;">RTS строительство, энергетика и управление флотом.</p>
     </div>
 
     <ul class="task-list">
@@ -40,34 +54,19 @@
     </ul>
 
     <div class="ai-block">
-        <h3>> AI_AGENT_CONTEXT // STAGE_2_DEPLOY</h3>
+        <h3>&gt; AI_AGENT_CONTEXT // STAGE_2_DEPLOY</h3>
         <p><strong>OBJECTIVE:</strong> Implement Colony Builder & RTS Mechanics.</p>
-        <p><strong>KEY_SCRIPTS:</strong>
-        <br>1. <code>BuildingSystem.cs</code> (Raycasting, Placement Logic).
-        <br>2. <code>EnergyGrid.cs</code> (Consumption/Production logic).
-        <br>3. <code>FleetManager.cs</code> (Selection, Orders).
-        </p>
-        <p><strong>DATA:</strong> Create <code>BuildingData : ScriptableObject</code>. Fields: <code>Cost (Gold/Wood)</code>, <code>EnergyConsumption</code>, <code>SpawnPrefab</code>.</p>
-        <p><strong>NETWORKING:</strong> Use <code>[ServerRpc]</code> to request build. <code>[ClientRpc]</code> to spawn instance locally.</p>
-        <p><strong>GIT PROTOCOL FOR AGENTS:</strong></p>
-        <ol>
-            <li>Check <code>git status</code> before modifying scripts or assets</li>
-            <li>Show <code>git diff</code> to user after changes</li>
-            <li>Wait for command: "Загрузить на Гитхаб"</li>
-            <li>Execute push only on explicit user approval</li>
-            <li>Revert on user refusal with <code>git restore .</code></li>
-        </ol>
-        <p><strong>ROADMAP UPDATE PROTOCOL:</strong></p>
-        <ul>
-            <li>Update progress bar when BuildingSystem tasks complete</li>
-            <li>Toggle task checkboxes [ ] → [X]</li>
-            <li>Update Global Context when Stage 2 finishes, start Stage 3</li>
-        </ul>
+        <p><strong>KEY_SCRIPTS:</strong></p>
+        <p>1. <code>BuildingController.cs</code> (Grid placement, raycasting)</p>
+        <p>2. <code>EnergyGrid.cs</code> (Production/Consumption)</p>
+        <p>3. <code>FleetManager.cs</code> (Selection, Orders)</p>
+        <p><strong>DATA:</strong> <code>BuildingData : ScriptableObject</code></p>
+        <p><strong>NETWORKING:</strong> <code>[ServerRpc]</code> запрос строительства, <code>[ClientRpc]</code> спавн</p>
     </div>
 </div>
 <script>
-let c=0; const t=3;
-function toggleTask(b){ if(b.innerText=='[ ]'){b.innerText='[X]';b.style.color='#238636';c++;}else{b.innerText='[ ]';b.style.color='#58a6ff';c--;} document.getElementById('percent').innerText=(c/t*100)+'%'; document.getElementById('bar').style.width=(c/t*100)+'%'; }
+let c=0,t=3;
+function toggleTask(b){if(b.innerText=='[ ]'){b.innerText='[X]';b.style.color='#3fb950';c++;}else{b.innerText='[ ]';b.style.color='#58a6ff';c--;}document.querySelectorAll('.progress-bar-fill')[0].style.width=(c/t*100)+'%';}
 </script>
 </body>
 </html>

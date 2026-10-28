@@ -5,151 +5,99 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Этап 1: Архитектура</title>
     <style>
-        body { background-color: #0d1117; color: #c9d1d9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; }
-        a { color: #58a6ff; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        h1, h2 { color: #58a6ff; border-bottom: 1px solid #30363d; padding-bottom: 10px; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        
-        /* Progress Bar */
-        .progress-box { background: #161b22; padding: 20px; border-radius: 6px; margin: 20px 0; border: 1px solid #30363d; }
-        .progress-bar-bg { background: #21262d; height: 20px; border-radius: 4px; overflow: hidden; margin-top: 10px; }
-        .progress-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #1f6feb, #238636); transition: width 0.5s; }
-        .progress-text { display: flex; justify-content: space-between; font-weight: bold; }
-
-        /* Task List */
-        .task-list { list-style: none; padding: 0; }
-        .task-item { background: #161b22; border: 1px solid #30363d; margin-bottom: 10px; padding: 15px; border-radius: 6px; }
-        .task-header { display: flex; justify-content: space-between; align-items: center; }
-        .check-btn { cursor: pointer; color: #58a6ff; font-weight: bold; }
-
-        /* AI Block */
-        .ai-block { background: #1a0000; border: 2px solid #f85149; color: #ff7b72; padding: 20px; margin-top: 40px; font-family: 'Courier New', monospace; border-radius: 6px; }
-        .ai-block h3 { color: #ff7b72; border-bottom: 1px dashed #f85149; padding-bottom: 5px; }
-        .ai-tag { background: #f85149; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; }
-        code { background: #000; padding: 2px 5px; border-radius: 3px; color: #7ee787; }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background:#0a0e17; color:#c9d1d9; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; padding:20px; }
+        .starfield { position:fixed; top:0; left:0; right:0; bottom:0; z-index:0; pointer-events:none; overflow:hidden; }
+        .starfield::before { content:''; position:absolute; top:0; left:0; right:0; bottom:0; background: radial-gradient(2px 2px at 20px 30px,#fff,transparent), radial-gradient(2px 2px at 40px 70px,rgba(255,255,255,0.8),transparent), radial-gradient(1px 1px at 90px 40px,#fff,transparent), radial-gradient(1px 1px at 130px 80px,rgba(255,255,255,0.6),transparent), radial-gradient(2px 2px at 160px 30px,#fff,transparent); background-size:200px 100px; animation:drift 60s linear infinite; }
+        @keyframes drift { from{transform:translateY(0)} to{transform:translateY(-100px)} }
+        .nebula { position:fixed; top:0; left:0; right:0; bottom:0; z-index:0; pointer-events:none; background: radial-gradient(ellipse at 20% 50%,rgba(88,166,255,0.06) 0%,transparent 50%), radial-gradient(ellipse at 80% 30%,rgba(163,113,247,0.05) 0%,transparent 50%); }
+        .container { position:relative; z-index:1; max-width:1200px; margin:0 auto; }
+        h1 { color:#58a6ff; font-size:2em; margin-bottom:10px; text-shadow:0 0 30px rgba(88,166,255,0.3); }
+        h2 { color:#58a6ff; border-bottom:1px solid #30363d; padding-bottom:10px; margin:20px 0; }
+        a { color:#58a6ff; text-decoration:none; }
+        a:hover { text-decoration:underline; }
+        .progress-box { background:#161b22; padding:20px; border-radius:10px; margin:20px 0; border:1px solid #30363d; }
+        .progress-bar-bg { background:#0d1117; height:20px; border-radius:10px; overflow:hidden; margin-top:10px; }
+        .progress-bar-fill { height:100%; width:100%; background:linear-gradient(90deg,#238636,#3fb950); border-radius:10px; transition:width 0.5s; }
+        .progress-text { display:flex; justify-content:space-between; font-weight:bold; }
+        .task-list { list-style:none; padding:0; }
+        .task-item { background:#161b22; border:1px solid #30363d; margin-bottom:12px; padding:18px; border-radius:8px; border-left:4px solid #238636; }
+        .task-item.done { border-left-color:#238636; }
+        .task-header { display:flex; justify-content:space-between; align-items:center; }
+        .check-btn { cursor:pointer; color:#238636; font-weight:bold; font-size:1.2em; }
+        .ai-block { background:rgba(0,0,0,0.5); border:2px solid #f85149; color:#ff7b72; padding:20px; margin-top:40px; font-family:'Courier New',monospace; border-radius:10px; }
+        .ai-block h3 { color:#ff7b72; border-bottom:1px dashed #f85149; padding-bottom:10px; }
+        .ai-tag { background:#f85149; color:#fff; padding:2px 8px; border-radius:4px; font-size:0.8em; }
+        code { background:#0d1117; padding:2px 8px; border-radius:4px; color:#7ee787; }
+        .nav-btn { display:inline-block; margin-top:10px; padding:8px 16px; background:#21262d; color:#c9d1d9; text-decoration:none; border-radius:6px; font-size:0.9em; border:1px solid #30363d; transition:all 0.2s; }
+        .nav-btn:hover { background:#30363d; border-color:#58a6ff; }
+        .visual-box { height:150px; border-radius:10px; margin:15px 0; position:relative; overflow:hidden; border:1px solid #30363d; }
+        .visual-arch { background: radial-gradient(ellipse at 30% 50%, #58a6ff 0%, transparent 40%), radial-gradient(ellipse at 70% 40%, #a371f7 0%, transparent 35%), radial-gradient(circle at 50% 50%, #3fb950 0%, transparent 20%), linear-gradient(135deg, #0d1117, #161b22); }
+        .visual-arch::after { content:'🔗'; position:absolute; bottom:10px; right:15px; font-size:2em; opacity:0.5; }
     </style>
 </head>
 <body>
-
+    <div class="starfield"></div>
+    <div class="nebula"></div>
 <div class="container">
-    <a href="../index.html" style="color:#8b949e;">← Вернуться к общей карте</a>
-    
+    <a href="../index.html" style="color:#8b949e; font-size:0.9em;">← Вернуться к общей карте</a>
     <h1>🛠️ Этап 1: Архитектура "Галактика-Свитч"</h1>
-    
+
+    <div class="visual-box visual-arch"></div>
+
     <div class="progress-box">
-        <div class="progress-text">
-            <span>Статус реализации</span>
-            <span id="percent">0%</span>
-        </div>
-        <div class="progress-bar-bg">
-            <div class="progress-bar-fill" id="bar"></div>
-        </div>
+        <div class="progress-text"><span>Статус реализации</span><span id="percent">100%</span></div>
+        <div class="progress-bar-bg"><div class="progress-bar-fill" id="bar"></div></div>
         <p style="color:#8b949e; margin-top:10px;">
-            Цель: Написать сервер-маршрутизатор и настроить базовый сетевой клиент.
-            Сервер должен уметь соединять игроков, а клиент — принимать роль Хоста.
+            Сервер-маршрутизатор (SignalR) + базовый сетевой клиент (Fish-Networking).
+            Сервер соединяет игроков, клиент принимает роль Хоста.
         </p>
     </div>
 
     <ul class="task-list">
-        <li class="task-item">
+        <li class="task-item done">
             <div class="task-header">
                 <span>1. Настройка Unity и Git</span>
                 <span class="check-btn" onclick="toggleTask(this)">[X]</span>
             </div>
             <p style="font-size:0.85em; color:#8b949e; margin-top:8px;">
-                Создана структура папок: Scripts/Core/, Scripts/Network/, Prefabs/. 
-                Настроен .gitignore для Unity и Backend. Сцены: 00_MainMenu, 01_GameWorld.
+                Создана структура папок, настроен .gitignore, сцены 00_MainMenu и 01_GameWorld.
             </p>
         </li>
-        <li class="task-item">
+        <li class="task-item done">
             <div class="task-header">
                 <span>2. Создание Backend-свитча (SignalR)</span>
                 <span class="check-btn" onclick="toggleTask(this)">[X]</span>
             </div>
             <p style="font-size:0.85em; color:#8b949e; margin-top:8px;">
-                Backend: Backend.csproj, GalaxyHub.cs, Program.cs. 
-                SignalR Hub: JoinSystem, LeaveSystem, BroadcastGameEvent. 
-                URL: http://localhost:5000/galaxyhub
+                Backend.csproj, GalaxyHub.cs, Program.cs. Методы: JoinSystem, LeaveSystem, BroadcastGameEvent. URL: http://localhost:5000
             </p>
         </li>
-        <li class="task-item">
+        <li class="task-item done">
             <div class="task-header">
                 <span>3. Интеграция Fish-Networking (Управление физикой)</span>
                 <span class="check-btn" onclick="toggleTask(this)">[X]</span>
             </div>
             <p style="font-size:0.85em; color:#8b949e; margin-top:8px;">
-                NetworkManager: GameManager.cs, BackendClient.cs, GameNetClient.cs.
-                MainMenuUI для подключения. PlayerController для управления.
+                NetworkManager: GameManager.cs, BackendClient.cs, GameNetClient.cs, MainMenuUI.cs, PlayerController.cs
             </p>
         </li>
     </ul>
 
-    <!-- AI AGENT CONTEXT -->
     <div class="ai-block">
-        <h3>> AI_AGENT_CONTEXT // STAGE_1_DEPLOY</h3>
-        <p><strong>OBJECTIVE:</strong> Initialize Project Architecture.</p>
-        
-        <p><strong>FILE_STRUCTURE_PLAN:</strong>
-        <br>/Assets/
-        <br>  /Scripts/
-        <br>    /Core/Managers/ (GameManager, NetworkManager)
-        <br>    /Network/ (BackendClient, GameNetClient)
-        <br>  /Prefabs/
-        <br>  /Scenes/ (00_MainMenu, 01_GameWorld)
-        <br>/ProjectSettings/
-        </p>
-
-        <p><strong>IMPLEMENTATION_STEPS:</strong>
-        <br>1. <strong>Backend:</strong> Create Console App (.NET 8). NuGet: <code>Microsoft.AspNetCore.SignalR</code>.
-        <br>2. <strong>Hub Logic:</strong> Implement <code>GalaxyHub : Hub</code>. Methods: <code>JoinSystem(PlayerID, SystemID)</code>.
-        <br>3. <strong>Unity:</strong> Import Fish-Networking via Git URL (<code>https://github.com/nlowe/fish-networking.git</code> or AssetStore).
-        <br>4. <strong>NetworkManager:</strong> Create script. Setup <code>NetworkManager.Singleton</code>. Configure SpawnList.
-        </p>
-
-        <p><strong>CONSTRAINTS:</strong></p>
-        <ul>
-            <li>- Do not simulate game logic on Backend. Backend is State Router only.</li>
-            <li>- Use ScriptableObjects for all game data.</li>
-        </ul>
-        <p><strong>GIT PROTOCOL FOR AGENTS:</strong></p>
-        <ol>
-            <li>Check <code>git status</code> before making changes</li>
-            <li>Show <code>git diff</code> to user after changes</li>
-            <li>Wait for explicit command: "Загрузить на Гитхаб"</li>
-            <li>Only then: <code>git add .</code> → <code>git commit -m "description"</code> → <code>git push</code></li>
-            <li>On "отмена" - <code>git restore .</code> and reset staging area</li>
-        </ol>
-        <p><strong>ROADMAP UPDATE PROTOCOL:</strong></p>
-        <ul>
-            <li>Update progress bar percentage when tasks complete</li>
-            <li>Mark tasks as [X] when finished</li>
-            <li>Update Global AI Context when moving to next stage</li>
-        </ul>
+        <h3>&gt; AI_AGENT_CONTEXT // STAGE_1_DEPLOY</h3>
+        <p><strong>STATUS:</strong> ✅ COMPLETE</p>
+        <p><strong>FILES CREATED:</strong></p>
+        <p>Backend/Backend.csproj — .NET 9.0 Web SDK</p>
+        <p>Backend/GalaxyHub.cs — SignalR Hub</p>
+        <p>Backend/Program.cs — Server entry point</p>
+        <p>Assets/Scripts/Core/Managers/GameManager.cs</p>
+        <p>Assets/Scripts/Network/Backend/BackendClient.cs</p>
+        <p>Assets/Scripts/Network/Client/GameNetClient.cs</p>
+        <p>Assets/Scripts/Core/MainMenuUI.cs</p>
+        <p>Assets/Scripts/Core/PlayerController.cs</p>
+        <p><strong>NEXT:</strong> Перейти к <code>stages/stage_2/index.html</code> — Этап 2: Колония</p>
     </div>
 </div>
-
-<script>
-    // Simple script to simulate progress updating
-    let completedTasks = 0;
-    const totalTasks = 3;
-
-    function toggleTask(btn) {
-        if (btn.innerText === '[ ]') {
-            btn.innerText = '[X]';
-            btn.style.color = '#238636';
-            completedTasks++;
-        } else {
-            btn.innerText = '[ ]';
-            btn.style.color = '#58a6ff';
-            completedTasks--;
-        }
-        
-        const percent = Math.round((completedTasks / totalTasks) * 100);
-        document.getElementById('percent').innerText = percent + '%';
-        document.getElementById('bar').style.width = percent + '%';
-    }
-</script>
-
 </body>
 </html>

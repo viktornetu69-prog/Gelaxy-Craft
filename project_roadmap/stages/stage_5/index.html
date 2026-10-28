@@ -3,30 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <title>Этап 5: Взаимодействие</title>
-    <style>body{background:#0d1117;color:#c9d1d9;font-family:sans-serif;padding:20px}h1{color:#58a6ff}.ai{background:#1a0000;border:2px solid #f85149;color:#ff7b72;padding:15px;font-family:monospace}code{color:#7ee787;background:#000;padding:2px 4px;border-radius:3px}</style>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:#0a0e17;color:#c9d1d9;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;padding:20px}
+        .starfield{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;overflow:hidden}
+        .starfield::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(2px 2px at 20px 30px,#fff,transparent),radial-gradient(2px 2px at 40px 70px,rgba(255,255,255,0.8),transparent),radial-gradient(1px 1px at 90px 40px,#fff,transparent),radial-gradient(1px 1px at 130px 80px,rgba(255,255,255,0.6),transparent),radial-gradient(2px 2px at 160px 30px,#fff,transparent);background-size:200px 100px;animation:drift 60s linear infinite}
+        @keyframes drift{from{transform:translateY(0)}to{transform:translateY(-100px)}}
+        .nebula{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 25% 25%,rgba(248,81,73,0.06) 0%,transparent 50%),radial-gradient(ellipse at 75% 75%,rgba(240,136,62,0.05) 0%,transparent 50%)}
+        .container{position:relative;z-index:1;max-width:1200px;margin:0 auto}
+        h1{color:#58a6ff;font-size:2em;margin-bottom:10px;text-shadow:0 0 30px rgba(88,166,255,0.3)}
+        h2{color:#58a6ff;border-bottom:1px solid #30363d;padding-bottom:10px;margin:20px 0}
+        a{color:#58a6ff;text-decoration:none}
+        .ai-block{background:rgba(0,0,0,0.5);border:2px solid #f85149;color:#ff7b72;padding:20px;margin-top:40px;font-family:'Courier New',monospace;border-radius:10px}
+        .ai-block h3{border-bottom:1px dashed #f85149;padding-bottom:10px}
+        code{background:#0d1117;padding:2px 8px;border-radius:4px;color:#7ee787}
+        .nav-btn{display:inline-block;margin-top:10px;padding:8px 16px;background:#21262d;color:#c9d1d9;text-decoration:none;border-radius:6px;font-size:0.9em;border:1px solid #30363d}
+        .nav-btn:hover{background:#30363d;border-color:#58a6ff}
+        .visual-box{height:150px;border-radius:10px;margin:15px 0;position:relative;overflow:hidden;border:1px solid #30363d}
+        .visual-interact{background:radial-gradient(circle at 25% 25%,#f85149 0%,transparent 30%),radial-gradient(circle at 75% 75%,#f0883e 0%,transparent 30%),radial-gradient(circle at 50% 50%,#58a6ff 0%,transparent 20%),linear-gradient(135deg,#1a0d0d,#0d1117)}
+        .visual-interact::after{content:'⚔️';position:absolute;bottom:10px;right:15px;font-size:2em;opacity:0.5}
+    </style>
 </head>
 <body>
-<h1>⚔️ Этап 5: PvP и Кооперация</h1>
-<p>Рейды, Глобальный Босс, Гильдии.</p>
-<ul><li>Система "Сокетов" (Пристыковка)</li><li>Права доступа (Host vs Guest)</li><li>Сетевая Боевка</li></ul>
-<div class="ai">
-    <h3>> AI_AGENT_CONTEXT // STAGE_5_DEPLOY</h3>
-    <p><strong>LOGIC:</strong> <code>GateController.cs</code> (Host only). Guest uses <code>Interact()</code> to hack gates.<br>
-    <strong>BOSS:</strong> Global Event. Spawns in specific <code>SystemID</code>. All participants connect to that ID.</p>
-    <p><strong>GIT PROTOCOL FOR AGENTS:</strong></p>
-        <ol>
-            <li>Check <code>git status</code> before combat or network code changes</li>
-            <li>Show <code>git diff</code> to user after changes</li>
-            <li>Push only after user command "Загрузить на Гитхаб"</li>
-            <li>Revert if user says "нет" with <code>git restore .</code></li>
-        </ol>
-        <p><strong>ROADMAP UPDATE PROTOCOL:</strong></p>
-        <ul>
-            <li>Update progress when PvP/Raid tasks complete</li>
-            <li>Mark tasks [X] when finished</li>
-            <li>Final stage - project ready for testing and iteration</li>
-        </ul>
+    <div class="starfield"></div>
+    <div class="nebula"></div>
+<div class="container">
+    <a href="../index.html" style="color:#8b949e;font-size:0.9em;">← Вернуться к общей карте</a>
+    <h1>⚔️ Этап 5: PvP и Кооперация</h1>
+
+    <div class="visual-box visual-interact"></div>
+
+    <div style="background:#161b22;padding:20px;border-radius:10px;margin:20px 0;border:1px solid #30363d">
+        <p>Рейды, Глобальный Босс, Гильдии. Система "сокетов" (пристыковка к чужой системе).</p>
     </div>
-<a href="../index.html">← На Главную</a>
+
+    <div class="ai-block">
+        <h3>&gt; AI_AGENT_CONTEXT // STAGE_5_DEPLOY</h3>
+        <p><strong>LOGIC:</strong> <code>GateController.cs</code> (Host only). Guest uses <code>Interact()</code> to hack gates.</p>
+        <p><strong>BOSS:</strong> Global Event. Spawns in specific <code>SystemID</code>. All participants connect.</p>
+        <p><strong>RPC:</strong> <code>Shoot()</code>, <code>TakeDamage()</code>. Sync HP across clients.</p>
+    </div>
+    <a href="../index.html" class="nav-btn">← На Главную</a>
 </body>
 </html>

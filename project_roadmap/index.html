@@ -5,140 +5,494 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roadmap: Галактика Свитч</title>
     <style>
-        body { background-color: #0d1117; color: #c9d1d9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; }
-        h1, h2 { color: #58a6ff; border-bottom: 1px solid #30363d; padding-bottom: 10px; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        
-        /* Navigation */
-        .nav-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; margin-top: 30px; }
-        .stage-card { background: #161b22; border: 1px solid #30363d; padding: 20px; border-radius: 6px; transition: 0.3s; }
-        .stage-card:hover { border-color: #58a6ff; transform: translateY(-2px); }
-        .stage-card a { text-decoration: none; color: #58a6ff; font-weight: bold; font-size: 1.2em; }
-        
-        /* Progress Bars */
-        .progress-container { background: #21262d; border-radius: 4px; margin-top: 10px; height: 10px; overflow: hidden; }
-        .progress-bar { height: 100%; background: #238636; width: 0%; transition: width 0.5s; }
-        .status-text { font-size: 0.8em; color: #8b949e; margin-top: 5px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0a0e17;
+            color: #c9d1d9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            overflow-x: hidden;
+        }
 
-        /* AI Block */
-        .ai-block { background: #000; border: 2px solid #f85149; color: #f85149; padding: 20px; margin-top: 50px; font-family: 'Courier New', monospace; }
-        .ai-block h3 { margin-top: 0; border-bottom: 1px dashed #f85149; }
-        .ai-task { margin-bottom: 10px; }
-        .ai-tag { background: #f85149; color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 0.8em; }
+        /* === ANIMATED STARFIELD === */
+        .starfield {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .starfield::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background:
+                radial-gradient(2px 2px at 20px 30px, #fff, transparent),
+                radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+                radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+                radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+                radial-gradient(2px 2px at 160px 30px, #fff, transparent);
+            background-size: 200px 100px;
+            animation: drift 60s linear infinite;
+        }
+        @keyframes drift {
+            from { transform: translateY(0); }
+            to { transform: translateY(-100px); }
+        }
 
-        /* Navigation Buttons */
-        .nav-btn { display: inline-block; margin-top: 10px; padding: 5px 10px; background: #21262d; color: #c9d1d9; text-decoration: none; border-radius: 4px; font-size: 0.9em; }
-        .nav-btn:hover { background: #30363d; }
+        /* === NEBULA GLOW === */
+        .nebula {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse at 15% 40%, rgba(56, 139, 253, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 85% 15%, rgba(163, 113, 247, 0.06) 0%, transparent 60%),
+                radial-gradient(ellipse at 50% 85%, rgba(0, 210, 211, 0.04) 0%, transparent 60%);
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #58a6ff;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(88, 166, 255, 0.3);
+        }
+        h2 {
+            color: #58a6ff;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        /* === TOP BAR === */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(22, 27, 34, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            border: 1px solid #30363d;
+        }
+        .progress-overview {
+            font-size: 1.2em;
+        }
+        .progress-overview span {
+            color: #58a6ff;
+            font-weight: bold;
+            font-size: 1.3em;
+        }
+        .nav-btn {
+            display: inline-block;
+            margin-left: 8px;
+            padding: 8px 16px;
+            background: #21262d;
+            color: #c9d1d9;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9em;
+            border: 1px solid #30363d;
+            transition: all 0.2s;
+        }
+        .nav-btn:hover {
+            background: #30363d;
+            border-color: #58a6ff;
+        }
+
+        /* === KEY IDEA CARDS === */
+        .key-idea-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .key-idea-card {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border: 1px solid #30363d;
+            padding: 24px;
+            border-radius: 12px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .key-idea-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+        }
+        .key-idea-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+        .key-idea-card .icon {
+            font-size: 2.5em;
+            display: block;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .key-idea-card h3 {
+            color: #f0f6fc;
+            margin: 8px 0;
+        }
+        .key-idea-card p {
+            color: #8b949e;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        .key-idea-card .key-idea-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .card-mmo { --accent: #58a6ff; }
+        .card-mmo .key-idea-tag { background: rgba(88,166,255,0.2); color: #58a6ff; }
+        .card-rts { --accent: #f0883e; }
+        .card-rts .key-idea-tag { background: rgba(240,136,62,0.2); color: #f0883e; }
+        .card-rpg { --accent: #a371f7; }
+        .card-rpg .key-idea-tag { background: rgba(163,113,247,0.2); color: #a371f7; }
+        .card-p2p { --accent: #238636; }
+        .card-p2p .key-idea-tag { background: rgba(35,134,54,0.2); color: #238636; }
+
+        .tech-stack {
+            margin: 20px 0;
+            padding: 15px 20px;
+            background: rgba(22, 27, 34, 0.6);
+            border-radius: 8px;
+            border: 1px solid #30363d;
+            font-size: 0.95em;
+        }
+        .tech-stack code {
+            background: #0d1117;
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: #7ee787;
+            font-size: 0.95em;
+        }
+
+        /* === STAGE CARDS === */
+        .stage-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            padding: 24px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            transition: all 0.3s;
+        }
+        .stage-card:hover {
+            border-color: #58a6ff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .stage-card a.title {
+            text-decoration: none;
+            color: #58a6ff;
+            font-weight: bold;
+            font-size: 1.2em;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .stage-card.completed { border-left: 4px solid #238636; }
+        .stage-card.in-progress { border-left: 4px solid #d29922; }
+        .stage-card.planned { border-left: 4px solid #58a6ff; }
+        .stage-card.roadmap { border-left: 4px solid #8b949e; }
+
+        .progress-container {
+            background: #0d1117;
+            border-radius: 6px;
+            margin: 10px 0;
+            height: 12px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.5s;
+        }
+        .progress-bar.completed { background: linear-gradient(90deg, #238636, #3fb950); }
+        .progress-bar.in-progress { background: linear-gradient(90deg, #d29922, #e3b341); }
+        .progress-bar.planned { background: linear-gradient(90deg, #1f6feb, #58a6ff); }
+        .progress-bar.roadmap { background: linear-gradient(90deg, #58a6ff33, #58a6ff); }
+
+        .status-text {
+            font-size: 0.85em;
+            margin-top: 6px;
+        }
+        .status-text.completed { color: #3fb950; }
+        .status-text.in-progress { color: #e3b341; }
+        .status-text.planned { color: #58a6ff; }
+        .status-text.roadmap { color: #8b949e; }
+
+        /* === VISUAL SPACE PREVIEW === */
+        .space-preview {
+            height: 120px;
+            border-radius: 8px;
+            margin: 12px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .preview-arch {
+            background:
+                radial-gradient(ellipse at 30% 50%, #58a6ff 0%, transparent 40%),
+                radial-gradient(ellipse at 70% 30%, #a371f7 0%, transparent 40%),
+                linear-gradient(135deg, #0d1117, #161b22);
+            border: 1px solid #30363d;
+        }
+        .preview-colony {
+            background:
+                radial-gradient(circle at 20% 60%, #f0883e 0%, transparent 30%),
+                radial-gradient(circle at 80% 40%, #58a6ff 0%, transparent 30%),
+                linear-gradient(135deg, #1a1510, #0d1117);
+            border: 1px solid #30363d;
+        }
+        .preview-economy {
+            background:
+                radial-gradient(circle at 50% 50%, #3fb950 0%, transparent 40%),
+                linear-gradient(135deg, #0d1715, #0d1117);
+            border: 1px solid #30363d;
+        }
+        .preview-schedule {
+            background:
+                radial-gradient(ellipse at 20% 50%, #f0883e 0%, transparent 35%),
+                radial-gradient(ellipse at 80% 50%, #a371f7 0%, transparent 35%),
+                linear-gradient(135deg, #170d1a, #0d1117);
+            border: 1px solid #30363d;
+        }
+        .preview-interact {
+            background:
+                radial-gradient(circle at 25% 25%, #f85149 0%, transparent 30%),
+                radial-gradient(circle at 75% 75%, #f0883e 0%, transparent 30%),
+                linear-gradient(135deg, #1a0d0d, #0d1117);
+            border: 1px solid #30363d;
+        }
+        .preview-events {
+            background:
+                radial-gradient(circle at 40% 40%, #f85149 0%, transparent 25%),
+                radial-gradient(circle at 60% 60%, #58a6ff 0%, transparent 25%),
+                radial-gradient(circle at 50% 50%, #f0883e 0%, transparent 20%),
+                linear-gradient(135deg, #0d1117, #1a0d0d);
+            border: 1px solid #30363d;
+        }
+        .preview-polish {
+            background:
+                radial-gradient(circle at 30% 30%, #58a6ff 0%, transparent 30%),
+                radial-gradient(circle at 70% 70%, #a371f7 0%, transparent 30%),
+                linear-gradient(135deg, #0d1117, #161b22);
+            border: 1px solid #30363d;
+        }
+        .space-preview-label {
+            position: absolute;
+            bottom: 8px;
+            right: 12px;
+            font-size: 0.75em;
+            color: rgba(255,255,255,0.4);
+            font-style: italic;
+        }
+
+        /* === AI BLOCK === */
+        .ai-block {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid #f85149;
+            color: #f85149;
+            padding: 24px;
+            margin-top: 40px;
+            font-family: 'Courier New', monospace;
+            border-radius: 10px;
+        }
+        .ai-block h3 {
+            margin-top: 0;
+            border-bottom: 1px dashed #f85149;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .ai-task {
+            margin-bottom: 10px;
+            padding: 8px;
+            background: rgba(248, 81, 73, 0.05);
+            border-radius: 4px;
+        }
+
+        /* === GRID LAYOUT === */
+        .two-col {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 900px) {
+            .two-col { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
+    <div class="starfield"></div>
+    <div class="nebula"></div>
 
 <div class="container">
-    <div style="display:flex; justify-content:space-between; align-items:center;">
-        <h1>🚀 Галактика Свитч (Roadmap)</h1>
-        <div style="text-align:right;">
-            <div>Общий прогресс: <span style="color:#58a6ff;">20%</span></div>
-            <a href="stages/stage_1/index.html" class="nav-btn">Перейти к Этапу 1</a>
+    <div class="top-bar">
+        <h1>🚀 Галактика Свитч</h1>
+        <div>
+            <div class="progress-overview">Прогресс: <span>35%</span></div>
         </div>
     </div>
 
-    <!-- KEY IDEA - for AI Agent and Human -->
-    <div class="key-idea">
-        <h2>🎯 Key Idea / Концепция проекта</h2>
+    <div class="two-col">
+        <div>
+        <!-- KEY IDEA -->
+        <h2>🎯 Концепция проекта</h2>
         <div class="key-idea-grid">
-            <div class="key-idea-card">
+            <div class="key-idea-card card-mmo">
+                <span class="icon">🌐</span>
                 <span class="key-idea-tag">MMO</span>
                 <h3>Massively Multiplayer Online</h3>
-                <p>Мир для сотен игроков одновременно. ПО (Server) управляет состоянием мира, клиенты подключаются и взаимодействуют.</p>
+                <p>Мир для сотен игроков одновременно. Сервер — маршрутизатор и кассир. Клиенты — симуляторы мира.</p>
             </div>
-            <div class="key-idea-card">
+            <div class="key-idea-card card-rts">
+                <span class="icon">🚀</span>
                 <span class="key-idea-tag">RTS</span>
                 <h3>Real-Time Strategy</h3>
-                <p>Строительство баз, управление юнитами, ресурсный контроль, тактическое сражение.</p>
+                <p>Строительство баз, управление флотом, ресурсный контроль, тактическое сражение в реальном времени.</p>
             </div>
-            <div class="key-idea-card">
+            <div class="key-idea-card card-rpg">
+                <span class="icon">⚔️</span>
                 <span class="key-idea-tag">RPG</span>
                 <h3>Role-Playing Game</h3>
-                <p>Прокачка характеристик, инвентарь, навыки, экипировка, сюжетные квесты.</p>
+                <p>Прокачка характеристик, инвентарь, навыки, экипировка, 24 сюжетных квеста в сутки.</p>
             </div>
-            <div class="key-idea-card">
+            <div class="key-idea-card card-p2p">
+                <span class="icon">🔗</span>
                 <span class="key-idea-tag">P2P</span>
                 <h3>Peer-to-Peer Architecture</h3>
-                <p>Хост — диспетчер, клиенты — симуляторы. Минимальная нагрузка на серверное оборудование.</p>
+                <p>1 Игрок = 1 Звёздная Система (Хост). Сервер SignalR — только маршрутизация и экономика.</p>
             </div>
         </div>
 
-    <p><strong>Жанр:</strong> MMO RTS RPG (P2P Architecture)<br>
-    <strong>Стек:</strong> Unity 6, C#, Fish-Networking, SignalR, DOTween, A* Pathfinding</p>
-        <!-- Stage 1 -->
-        <div class="stage-card">
-            <a href="stages/stage_1/index.html">Этап 1: Архитектура</a>
-            <div class="progress-container"><div class="progress-bar" style="width: 100%"></div></div>
-            <div class="status-text">Статус: ✅ Завершён</div>
-            <p style="font-size:0.9em; color:#8b949e;">Создание сервера-свитча и настройка Fish-Networking.</p>
+        <div class="tech-stack">
+            <strong>Стек:</strong>
+            <code>Unity 6</code>
+            <code>C#</code>
+            <code>Fish-Networking</code>
+            <code>SignalR</code>
+            <code>DOTween</code>
+            <code>A* Pathfinding</code>
+            <code>SQLite</code>
         </div>
 
-        <!-- Stage 2 -->
-        <div class="stage-card">
-            <a href="stages/stage_2/index.html">Этап 2: Система/База</a>
-            <div class="progress-container"><div class="progress-bar" style="width: 0%"></div></div>
-            <div class="status-text">Статус: В очереди</div>
-            <p style="font-size:0.9em; color:#8b949e;">RTS строительство, энергетика и управление флотом.</p>
+        <!-- STAGES -->
+        <h2>🗺️ Этапы разработки</h2>
+
+        <div class="stage-card completed">
+            <a href="stages/stage_1/index.html" class="title">Этап 1: Архитектура «Галактика-Свитч»</a>
+            <div class="space-preview preview-arch"><div class="space-preview-label">Архитектура</div></div>
+            <div class="progress-container"><div class="progress-bar completed" style="width: 100%"></div></div>
+            <div class="status-text completed">✅ Завершён</div>
+            <p style="font-size:0.9em; color:#8b949e; margin-top:8px;">Backend SignalR + Fish-Networking. Протокол JoinSystem/LeaveSystem.</p>
         </div>
 
-        <!-- Stage 3 -->
-        <div class="stage-card">
-            <a href="stages/stage_3/index.html">Этап 3: Экономика</a>
-            <div class="progress-container"><div class="progress-bar" style="width: 0%"></div></div>
-            <div class="status-text">Статус: В очереди</div>
-            <p style="font-size:0.9em; color:#8b949e;">База данных, инвентарь и баланс.</p>
+        <div class="stage-card in-progress">
+            <a href="stages/stage_2/index.html" class="title">Этап 2: Колония (RTS/Builder)</a>
+            <div class="space-preview preview-colony"><div class="space-preview-label">Колония</div></div>
+            <div class="progress-container"><div class="progress-bar in-progress" style="width: 60%"></div></div>
+            <div class="status-text in-progress">⏳ В работе</div>
+            <p style="font-size:0.9em; color:#8b949e; margin-top:8px;">Grid-based строительство, ScriptableObjects зданий, управление флотом.</p>
         </div>
 
-        <!-- Stage 4 -->
-        <div class="stage-card">
-            <a href="stages/stage_4/index.html">Этап 4: Расписание</a>
-            <div class="progress-container"><div class="progress-bar" style="width: 0%"></div></div>
-            <div class="status-text">Статус: В очереди</div>
-            <p style="font-size:0.9em; color:#8b949e;">Система 24/7, квесты и смены дней.</p>
+        <div class="stage-card planned">
+            <a href="stages/stage_3/index.html" class="title">Этап 3: Экономика & База Данных</a>
+            <div class="space-preview preview-economy"><div class="space-preview-label">Экономика</div></div>
+            <div class="progress-container"><div class="progress-bar planned" style="width: 40%"></div></div>
+            <div class="status-text planned">⏳ Готовление</div>
+            <p style="font-size:0.9em; color:#8b949e; margin-top:8px;">SQLite, баланс, инвентарь, аукцион.</p>
         </div>
 
-        <!-- Stage 5 -->
-        <div class="stage-card">
-            <a href="stages/stage_5/index.html">Этап 5: Взаимодействие</a>
-            <div class="progress-container"><div class="progress-bar" style="width: 0%"></div></div>
-            <div class="status-text">Статус: В очереди</div>
-            <p style="font-size:0.9em; color:#8b949e;">PvP, рейды и глобальный босс.</p>
+        <div class="stage-card planned">
+            <a href="stages/stage_4/index.html" class="title">Этап 4: Расписание (24/7 Events)</a>
+            <div class="space-preview preview-schedule"><div class="space-preview-label">Расписание</div></div>
+            <div class="progress-container"><div class="progress-bar planned" style="width: 50%"></div></div>
+            <div class="status-text planned">⏳ Готовление</div>
+            <p style="font-size:0.9em; color:#8b949e; margin-top:8px;">24 квеста/сутки, смена дней, глобальные ивенты.</p>
+        </div>
+
+        <div class="stage-card roadmap">
+            <a href="stages/stage_5/index.html" class="title">Этап 5: Взаимодействие (P2P)</a>
+            <div class="space-preview preview-interact"><div class="space-preview-label">PvP/Coop</div></div>
+            <div class="progress-container"><div class="progress-bar roadmap" style="width: 30%"></div></div>
+            <div class="status-text roadmap">⏳ Планирование</div>
+            <p style="font-size:0.9em; color:#8b949e; margin-top:8px;">Подключение к чужой системе, PvP/PvE, пиратство.</p>
+        </div>
+
+        <div class="stage-card roadmap">
+            <a href="stages/stage_6/index.html" class="title">Этап 6: Глобальные Ивенты</a>
+            <div class="space-preview preview-events"><div class="space-preview-label">Глобальные ивенты</div></div>
+            <div class="progress-container"><div class="progress-bar roadmap" style="width: 20%"></div></div>
+            <div class="status-text roadmap">🆕 Планируется</div>
+            <p style="font-size:0.9em; color:#8b949e; margin-top:8px;">Боссы, гильдии, кооперация.</p>
+        </div>
+
+        <div class="stage-card roadmap">
+            <a href="stages/stage_7/index.html" class="title">Этап 7: Полировка & Релиз</a>
+            <div class="space-preview preview-polish"><div class="space-preview-label">Полировка</div></div>
+            <div class="progress-container"><div class="progress-bar roadmap" style="width: 10%"></div></div>
+            <div class="status-text roadmap">🆕 Планируется</div>
+            <p style="font-size:0.9em; color:#8b949e; margin-top:8px;">UI/UX, оптимизация, контент.</p>
+        </div>
+        </div>
+
+        <!-- SIDEBAR -->
+        <div>
+            <h2>📊 Быстрая навигация</h2>
+            <div style="background:rgba(22,27,34,0.6); border:1px solid #30363d; border-radius:10px; padding:16px;">
+                <div style="margin-bottom:12px;">
+                    <div style="font-size:0.85em; color:#8b949e; margin-bottom:4px;">Backend</div>
+                    <div style="color:#3fb950; font-weight:bold;">✅ Сделано</div>
+                </div>
+                <div style="margin-bottom:12px;">
+                    <div style="font-size:0.85em; color:#8b949e; margin-bottom:4px;">Fish-Networking</div>
+                    <div style="color:#3fb950; font-weight:bold;">✅ Сделано</div>
+                </div>
+                <div style="margin-bottom:12px;">
+                    <div style="font-size:0.85em; color:#8b949e; margin-bottom:4px;">Building System</div>
+                    <div style="color:#e3b341; font-weight:bold;">⏳ В работе</div>
+                </div>
+                <div style="margin-bottom:12px;">
+                    <div style="font-size:0.85em; color:#8b949e; margin-bottom:4px;">Экономика</div>
+                    <div style="color:#58a6ff; font-weight:bold;">⏳ Ожидание</div>
+                </div>
+                <div style="margin-bottom:12px;">
+                    <div style="font-size:0.85em; color:#8b949e; margin-bottom:4px;">PvP</div>
+                    <div style="color:#8b949e; font-weight:bold;">🆕 Не начато</div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- AI AGENT CONTEXT -->
+    <!-- AI AGENT -->
     <div class="ai-block">
-        <h3>> AI_AGENT_CONTEXT // GLOBAL</h3>
-        <p><strong>ROLE:</strong> Senior Unity Network Engineer</p>
-        <p><strong>CURRENT_STATUS:</strong> Stage 1 Complete! Ready for Stage 2</p>
-        <p><strong>GLOBAL_LOGIC:</strong>
-           1. Сервер (Meta) хранит деньги и соединяет игроков (SignalR).<br>
-           2. Клиент (P2P) хранит физику и построение зданий (Fish-Networking).<br>
-           3. Архитектура Data-Driven: Все квесты и предметы через ScriptableObject.
-        </p>
-        <p><strong>IMMEDIATE_ACTION:</strong> Перейти к <code>stages/stage_2/index.html</code> для начала Этапа 2: Система/База.</p>
-        <p><strong>GIT PROTOCOL FOR AGENTS:</strong></p>
+        <h3>&gt; AI_AGENT_CONTEXT // GLOBAL ROADMAP</h3>
+        <p><strong>ROLE:</strong> Senior Unity Network Engineer & Game Systems Designer</p>
+        <p><strong>CURRENT_STATUS:</strong> All 7 stages defined. Stage 1 complete.</p>
+        <p><strong>NEXT_ACTIONS:</strong></p>
         <ol>
-            <li>Check <code>git status</code> - show current changes</li>
-            <li>Show proposed <code>git diff</code> to user</li>
-            <li>Wait for user command: "Загрузить на Гитхаб" or "Commit and Push"</li>
-            <li>Only then execute <code>git add .</code> + <code>git commit</code> + <code>git push</code></li>
-            <li>If user says "нет" or "не надо" - revert all changes, reset staging area</li>
+            <li>Открыть <code>stages/stage_2/index.html</code> — начать Этап 2: Колония</li>
+            <li>Создать BuildingController.cs с Grid System</li>
+            <li>Написать ScriptableObjects для зданий</li>
         </ol>
-        <p><strong>ROADMAP UPDATE PROTOCOL:</strong></p>
-        <ul>
-            <li>Update progress bar percentage in index.html when task completes</li>
-            <li>Update task status checkboxes ([ ] -> [X])</li>
-            <li>Add notes to stage description about what was done</li>
-            <li>Update Global AI Context when stage changes or new stage starts</li>
-        </ul>
     </div>
 </div>
-
 </body>
 </html>
