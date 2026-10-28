@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔍 Сканирование картинок — Gelaxy-Craft</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:#0a0e17;color:#c9d1d9;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;padding:20px}
+        .starfield{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;overflow:hidden}
+        .starfield::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(2px 2px at 20px 30px,#fff,transparent),radial-gradient(2px 2px at 40px 70px,rgba(255,255,255,0.8),transparent),radial-gradient(1px 1px at 90px 40px,#fff,transparent),radial-gradient(1px 1px at 130px 80px,rgba(255,255,255,0.6),transparent),radial-gradient(2px 2px at 160px 30px,#fff,transparent);background-size:200px 100px;animation:drift 60s linear infinite}
+        @keyframes drift{from{transform:translateY(0)}to{transform:translateY(-100px)}}
+        .container{position:relative;z-index:1;max-width:1200px;margin:0 auto}
+        h1{color:#58a6ff;font-size:2em;margin-bottom:10px}
+        .game-card{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:24px;margin-bottom:16px;transition:all 0.3s}
+        .game-card:hover{border-color:#58a6ff;box-shadow:0 4px 20px rgba(0,0,0,0.3)}
+        .game-card h3{color:#f0f6fc;margin-bottom:10px;font-size:1.2em}
+        .game-card p{color:#8b949e;margin-bottom:15px;line-height:1.6}
+        .file-input-wrapper{position:relative;display:inline-block;margin-right:10px}
+        .scan-btn{background:#58a6ff;color:white;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-size:14px;transition:all 0.2s}
+        .scan-btn:hover{background:#79c0ff}
+        .preview-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:15px}
+        .preview-item{position:relative;border-radius:8px;overflow:hidden;border:1px solid #30363d;background:#0d1117}
+        .preview-item img{width:100%;height:150px;object-fit:cover}
+        .preview-item .file-name{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.8);padding:4px 8px;font-size:11px;color:#c9d1d9}
+        .result{margin-top:20px;padding:15px;background:rgba(22,27,34,0.8);border-radius:8px;border:1px solid #30363d}
+        .result.success{border-color:#3fb950}
+        .result.error{border-color:#f85149}
+        .result h4{margin-bottom:10px}
+        .result p{color:#8b949e;font-size:14px}
+        .hidden{display:none}
+        .instructions{background:rgba(88,166,255,0.1);border:1px solid rgba(88,166,255,0.3);border-radius:10px;padding:20px;margin-bottom:30px}
+        .instructions h3{color:#58a6ff;margin-bottom:15px}
+        .instructions ol{padding-left:20px}
+        .instructions li{margin-bottom:8px;color:#c9d1d9;line-height:1.6}
+        .back-link{display:inline-block;margin-bottom:20px;padding:8px 16px;background:#21262d;color:#c9d1d9;text-decoration:none;border-radius:6px;border:1px solid #30363d;transition:all 0.2s}
+        .back-link:hover{background:#30363d;border-color:#58a6ff}
+    </style>
+</head>
+<body>
+    <div class="starfield"></div>
+    <div class="container">
+        <a href="index.html" class="back-link">← На главную</a>
+        <h1>🔍 Сканирование картинок</h1>
+        
+        <div class="instructions">
+            <h3>Как это работает</h3>
+            <ol>
+                <li>Нажмите "Выбрать файлы" в нужной игре</li>
+                <li>Выберите <strong>все</strong> картинки из папки (Ctrl+A)</li>
+                <li>Нажмите "Обновить manifest.json"</li>
+                <li>Файлы автоматически добавятся в manifest.json</li>
+                <li>Обновите страницу референсов (Ctrl+F5)</li>
+            </ol>
+        </div>
+
+        <div id="gameCards"></div>
+
+        <div class="result hidden" id="result">
+            <h4 id="resultTitle"></h4>
+            <p id="resultText"></p>
+        </div>
+    </div>
+
+    <script>
+        const games = [
+            { id: 'dune-2021', name: 'Dune 2021' },
+            { id: 'eve', name: 'EVE Online' },
+            { id: 'warcraft-3', name: 'WarCraft 3' },
+            { id: 'battlestar-galactica', name: 'Battlestar Galactica' },
+            { id: 'space-rangers', name: 'Space Rangers' }
+        ];
+
+        const gameCards = document.getElementById('gameCards');
+        const result = document.getElementById('result');
+        const resultTitle = document.getElementById('resultTitle');
+        const resultText = document.getElementById('resultText');
+
+        games.forEach(game => {
+            const card = document.createElement('div');
+            card.className = 'game-card';
+            card.innerHTML = `
+                <h3>${game.name}</h3>
+                <p>Папка: references/${game.id}/images/</p>
+                <div class="file-input-wrapper">
+                    <button class="scan-btn" onclick="selectFiles('${game.id}')">📁 Выбрать файлы</button>
+                    <input type="file" id="input-${game.id}" multiple accept="image/*" style="display:none" onchange="handleFiles('${game.id}', this.files)">
+                </div>
+                <button class="scan-btn" onclick="updateManifest('${game.id}')" style="background:#238636">✨ Обновить manifest.json</button>
+                <div id="preview-${game.id}" class="preview-grid"></div>
+            `;
+            gameCards.appendChild(card);
+        });
+
+        function selectFiles(gameId) {
+            document.getElementById(`input-${gameId}`).click();
+        }
+
+        let selectedFiles = {};
+
+        function handleFiles(gameId, files) {
+            selectedFiles[gameId] = Array.from(files);
+            
+            const previewGrid = document.getElementById(`preview-${gameId}`);
+            previewGrid.innerHTML = '';
+            
+            selectedFiles[gameId].forEach(file => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const item = document.createElement('div');
+                    item.className = 'preview-item';
+                    item.innerHTML = `
+                        <img src="${e.target.result}" alt="${file.name}">
+                        <div class="file-name">${file.name}</div>
+                    `;
+                    previewGrid.appendChild(item);
+                };
+                reader.readAsDataURL(file);
+            });
+            
+            showResult('success', `${selectedFiles[gameId].length} файлов выбрано`, `Файлы готовы к добавлению в manifest.json`);
+        }
+
+        function updateManifest(gameId) {
+            if (!selectedFiles[gameId] || selectedFiles[gameId].length === 0) {
+                showResult('error', 'Файлы не выбраны', 'Нажмите "Выбрать файлы" и выберите картинки');
+                return;
+            }
+            
+            // Генерируем manifest.json
+            const manifest = selectedFiles[gameId].map(file => file.name);
+            const json = JSON.stringify(manifest, null, 2);
+            
+            // Создаём blob и скачиваем manifest.json
+            const blob = new Blob([json], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `references/${gameId}/images/manifest.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            showResult('success', 'manifest.json скачан', `Добавьте скачанный файл в папку references/${gameId}/images/ и обновите страницу`);
+        }
+
+        function showResult(type, title, text) {
+            result.className = `result ${type}`;
+            resultTitle.textContent = title;
+            resultText.textContent = text;
+            result.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
